@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:labour_app/screens/splashscreen.dart';
+import 'package:labour_app/utiles/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const splash_screen(),
     );
   }
 }
@@ -31,8 +33,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(body: Container()),
-    );
+    return Scaffold();
   }
 }
