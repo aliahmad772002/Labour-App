@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 
 import 'package:labour_app/screens/contrecter/contractor_signup.dart';
@@ -16,7 +17,7 @@ class contracter_information extends StatefulWidget {
 class _contracter_informationState extends State<contracter_information> {
   TextEditingController companyController = TextEditingController();
   TextEditingController adressController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -106,6 +107,26 @@ class _contracter_informationState extends State<contracter_information> {
                         height: height * 0.08,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
+
+                          child: IntlPhoneField(
+                            decoration: const InputDecoration(
+                              labelText: 'Phone Number',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                            controller: phoneController,
+                            keyboardType: TextInputType.number,
+                            onChanged: (phone) {
+                              print(phone.completeNumber);
+                            },
+                            // onCountryChanged: (country) {
+                            //   print('Country changed to: ' + country.name);
+                            // },
+                          ),
                           // child: TextFormField(
                           //   // controller: usernameController,
                           //   keyboardType: TextInputType.name,
