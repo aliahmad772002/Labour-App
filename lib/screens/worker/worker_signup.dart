@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
-import 'package:labour_app/screens/worker_information.dart';
-import 'package:labour_app/screens/worker_login.dart';
+import 'package:labour_app/screens/worker/worker_information.dart';
+import 'package:labour_app/screens/worker/worker_login.dart';
 import 'package:labour_app/utiles/colors.dart';
 
 class Worker_signup extends StatefulWidget {
@@ -24,6 +24,7 @@ class _Worker_signupState extends State<Worker_signup> {
     var width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
+          // resizeToAvoidBottomInset: false,
           body: Stack(children: [
         Container(
           height: height,
@@ -83,7 +84,7 @@ class _Worker_signupState extends State<Worker_signup> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: height * 0.13,
+                  height: height * 0.12,
                   child: Image(
                     image: AssetImage("images/kjob.png"),
                     fit: BoxFit.fill,
@@ -110,6 +111,7 @@ class _Worker_signupState extends State<Worker_signup> {
                           child: TextFormField(
                             controller: usernameController,
                             keyboardType: TextInputType.name,
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -133,6 +135,7 @@ class _Worker_signupState extends State<Worker_signup> {
                           child: TextFormField(
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -158,7 +161,8 @@ class _Worker_signupState extends State<Worker_signup> {
                             child: TextFormField(
                               keyboardType: TextInputType.number,
                               controller: passwordController,
-                              decoration: InputDecoration(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -184,7 +188,8 @@ class _Worker_signupState extends State<Worker_signup> {
                             child: TextFormField(
                               keyboardType: TextInputType.number,
                               controller: confirmpwdController,
-                              decoration: InputDecoration(
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
                                 focusedBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
@@ -216,7 +221,7 @@ class _Worker_signupState extends State<Worker_signup> {
                           decoration: BoxDecoration(
                               color: Colormanager.ambercolor,
                               borderRadius: BorderRadius.circular(30)),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "Next",
                               style: TextStyle(fontWeight: FontWeight.bold),

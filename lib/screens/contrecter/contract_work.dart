@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:labour_app/screens/contractor_login.dart';
-import 'package:labour_app/screens/worker_login.dart';
+import 'package:labour_app/screens/contrecter/contractor_login.dart';
+import 'package:labour_app/screens/worker/worker_login.dart';
 
 class Contract_work extends StatefulWidget {
   const Contract_work({super.key});

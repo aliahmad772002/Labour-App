@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
-
-import 'package:labour_app/screens/contractor_signup.dart';
+import 'package:labour_app/screens/contrecter/contracter_information.dart';
+import 'package:labour_app/screens/contrecter/contractor_login.dart';
 import 'package:labour_app/utiles/colors.dart';
 
-class contracter_information extends StatefulWidget {
-  const contracter_information({super.key});
+class contractor_Signup extends StatefulWidget {
+  const contractor_Signup({super.key});
 
   @override
-  State<contracter_information> createState() => _contracter_informationState();
+  State<contractor_Signup> createState() => _contractor_SignupState();
 }
 
-class _contracter_informationState extends State<contracter_information> {
-  TextEditingController companyController = TextEditingController();
-  TextEditingController adressController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
+class _contractor_SignupState extends State<contractor_Signup> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController confirmpwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -40,7 +41,7 @@ class _contracter_informationState extends State<contracter_information> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => contractor_Signup(),
+                  builder: (context) => Contractor_login(),
                 ),
               );
             },
@@ -82,8 +83,8 @@ class _contracter_informationState extends State<contracter_information> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: height * 0.13,
-                  child: Image(
+                  height: height * 0.12,
+                  child: const Image(
                     image: AssetImage("images/kjob.png"),
                     fit: BoxFit.fill,
                   ),
@@ -99,39 +100,17 @@ class _contracter_informationState extends State<contracter_information> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Basic Information',
+                        'Contractor Signup',
                         style: TextStyle(color: Colormanager.textcolors),
                       ),
                       Container(
                         height: height * 0.08,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
-                          // child: TextFormField(
-                          //   // controller: usernameController,
-                          //   keyboardType: TextInputType.name,
-                          //   decoration: const InputDecoration(
-                          //     focusedBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //     ),
-                          //     enabledBorder: UnderlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //     ),
-                          //     labelText: 'User Name',
-                          //     labelStyle: TextStyle(
-                          //       color: Colors.white,
-                          //       fontSize: 13,
-                          //     ),
-                          //   ),
-                          // ),
-                        ),
-                      ),
-                      Container(
-                        height: height * 0.08,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15, right: 15),
                           child: TextFormField(
-                            controller: companyController,
-                            keyboardType: TextInputType.text,
+                            controller: usernameController,
+                            keyboardType: TextInputType.name,
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -139,7 +118,31 @@ class _contracter_informationState extends State<contracter_information> {
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
-                              labelText: 'Company',
+                              labelText: 'User Name',
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: height * 0.08,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextFormField(
+                            controller: emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              labelText: 'E-mail',
                               labelStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 13,
@@ -155,29 +158,49 @@ class _contracter_informationState extends State<contracter_information> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 15, right: 15),
                             child: TextFormField(
-                              keyboardType: TextInputType.streetAddress,
-                              controller: adressController,
-                              decoration: InputDecoration(
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                  ),
-                                  hintText: "Enter your Address",
-                                  hintStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                  ),
-                                  labelText: 'Address',
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                  ),
-                                  suffixIcon: Icon(
-                                    Icons.add_comment,
-                                    color: Colors.orange,
-                                  )),
+                              keyboardType: TextInputType.number,
+                              controller: passwordController,
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                labelText: 'Password',
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: height * 0.08,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              controller: confirmpwdController,
+                              style: const TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                labelText: 'Confirm Password',
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 13,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -199,7 +222,7 @@ class _contracter_informationState extends State<contracter_information> {
                               borderRadius: BorderRadius.circular(30)),
                           child: Center(
                             child: Text(
-                              "SignUp",
+                              "Next",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),

@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
-import 'package:labour_app/screens/contractor_signup.dart';
-
+import 'package:labour_app/screens/worker/worker_signup.dart';
 import 'package:labour_app/utiles/colors.dart';
 
-class Contractor_login extends StatefulWidget {
-  const Contractor_login({super.key});
+class Worker_login extends StatefulWidget {
+  const Worker_login({super.key});
 
   @override
-  State<Contractor_login> createState() => _Contractor_loginState();
+  State<Worker_login> createState() => _Worker_loginState();
 }
 
-class _Contractor_loginState extends State<Contractor_login> {
+class _Worker_loginState extends State<Worker_login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
@@ -57,7 +56,7 @@ class _Contractor_loginState extends State<Contractor_login> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => contractor_Signup(),
+                        builder: (context) => Worker_signup(),
                       ),
                     );
                   },
@@ -83,7 +82,7 @@ class _Contractor_loginState extends State<Contractor_login> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: height * 0.13,
+                  height: height * 0.12,
                   child: Image(
                     image: AssetImage("images/kjob.png"),
                     fit: BoxFit.fill,
@@ -100,7 +99,7 @@ class _Contractor_loginState extends State<Contractor_login> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Contractor Login',
+                        'Worker Login',
                         style: TextStyle(color: Colormanager.textcolors),
                       ),
                       Container(
@@ -110,6 +109,7 @@ class _Contractor_loginState extends State<Contractor_login> {
                           child: TextFormField(
                             controller: emailController,
                             keyboardType: TextInputType.text,
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
@@ -152,11 +152,12 @@ class _Contractor_loginState extends State<Contractor_login> {
                               controller: passwordController,
                               obscureText:
                                   !_passwordVisible, //This will obscure text dynamically
+                              style: const TextStyle(color: Colors.white),
                               decoration: InputDecoration(
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
-                                enabledBorder: UnderlineInputBorder(
+                                enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.white),
                                 ),
                                 labelText: 'Password',
