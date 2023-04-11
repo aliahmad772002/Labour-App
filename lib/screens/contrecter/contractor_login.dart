@@ -202,16 +202,18 @@ class _Contractor_loginState extends State<Contractor_login> {
                                 color: Colormanager.textcolors,
                                 fontSize: width * 0.035),
                           ),
-                          Container(
-                            height: height * 0.055,
-                            width: width * 0.5,
-                            decoration: BoxDecoration(
-                                color: Colormanager.ambercolor,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                          InkWell(
+                            child: Container(
+                              height: height * 0.055,
+                              width: width * 0.5,
+                              decoration: BoxDecoration(
+                                  color: Colormanager.ambercolor,
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: Center(
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),

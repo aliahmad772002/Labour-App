@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
-import 'package:labour_app/screens/worker_signup.dart';
+import 'package:labour_app/screens/worker/worker_signup.dart';
 import 'package:labour_app/utiles/colors.dart';
 
 class Worker_information extends StatefulWidget {
@@ -36,12 +36,7 @@ class _Worker_informationState extends State<Worker_information> {
           left: 30,
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Worker_signup(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Container(
               height: height * 0.04,

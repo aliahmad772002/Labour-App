@@ -1,14 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:labour_app/screens/contrecter/contractor_login.dart';
 
-import 'package:labour_app/screens/contrecter/contractor_signup.dart';
 import 'package:labour_app/utiles/colors.dart';
+import 'package:labour_app/utiles/model/contractor_usermodel.dart';
 
 class contracter_information extends StatefulWidget {
-  const contracter_information({super.key});
+  String username;
+  String email;
+  String password;
+  String confirmpwd;
+  contracter_information(
+      {super.key,
+      required this.username,
+      required this.email,
+      required this.password,
+      required this.confirmpwd});
 
   @override
   State<contracter_information> createState() => _contracter_informationState();
@@ -18,6 +28,65 @@ class _contracter_informationState extends State<contracter_information> {
   TextEditingController companyController = TextEditingController();
   TextEditingController adressController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  String? errorMessage;
+  void signUp() async {
+    try {
+      UserCredential credential = await auth.createUserWithEmailAndPassword(
+          email: widget.email, password: widget.password);
+      if (credential.user != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Contractor_login(),
+            ));
+        postdatatoFirebase();
+      }
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "invalid-email":
+          errorMessage = "Invalid Email!";
+          break;
+        case "wrong-password":
+          errorMessage = "Wrong Password";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
+      }
+    }
+  }
+
+  void postdatatoFirebase() async {
+    User user = auth.currentUser!;
+    String id = user.uid;
+    Contractorusermodel model = Contractorusermodel(
+      adress: adressController.text,
+      cnfpassword: widget.confirmpwd,
+      company: companyController.text,
+      email: widget.email,
+      password: widget.password,
+      phoneNO: phoneController.text,
+      uname: widget.username,
+      uid: id,
+    );
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .set(model.toMap());
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -38,12 +107,7 @@ class _contracter_informationState extends State<contracter_information> {
           left: 30,
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => contractor_Signup(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Container(
               height: height * 0.04,
@@ -207,12 +271,7 @@ class _contracter_informationState extends State<contracter_information> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => contracter_information(),
-                            ),
-                          );
+                          signUp();
                         },
                         child: Container(
                           height: height * 0.055,

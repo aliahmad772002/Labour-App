@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 import 'package:labour_app/screens/contrecter/contracter_information.dart';
-import 'package:labour_app/screens/contrecter/contractor_login.dart';
+
 import 'package:labour_app/utiles/colors.dart';
 
 class contractor_Signup extends StatefulWidget {
@@ -18,6 +17,7 @@ class _contractor_SignupState extends State<contractor_Signup> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController confirmpwdController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -38,12 +38,7 @@ class _contractor_SignupState extends State<contractor_Signup> {
           left: 30,
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Contractor_login(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Container(
               height: height * 0.04,
@@ -210,7 +205,11 @@ class _contractor_SignupState extends State<contractor_Signup> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => contracter_information(),
+                              builder: (context) => contracter_information(
+                                  confirmpwd: confirmpwdController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  username: usernameController.text),
                             ),
                           );
                         },

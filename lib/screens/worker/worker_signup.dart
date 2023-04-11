@@ -39,12 +39,7 @@ class _Worker_signupState extends State<Worker_signup> {
           left: 30,
           child: InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Worker_login(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Container(
               height: height * 0.04,
