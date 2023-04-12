@@ -1,10 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
+import 'package:labour_app/screens/contrecter/contract_forgetpwd.dart';
 import 'package:labour_app/screens/contrecter/contractor_signup.dart';
+import 'package:labour_app/screens/contrecter/new.dart';
 
 import 'package:labour_app/utiles/colors.dart';
+import 'package:labour_app/utiles/model/static_data.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Contractor_login extends StatefulWidget {
   const Contractor_login({super.key});
@@ -14,9 +20,64 @@ class Contractor_login extends StatefulWidget {
 }
 
 class _Contractor_loginState extends State<Contractor_login> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
+  bool? _success;
+  String? _userEmail;
+  void _signInWithEmailAndPassword() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    User user = (await _auth.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    ))
+        .user!;
+
+    if (user != null) {
+      setState(() {
+        StaticData.uid = user.uid;
+        print('uiddd ${StaticData.uid}');
+        _success = true;
+        _userEmail = user.email!;
+        print('email $_userEmail');
+      });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => newwork(),
+          ));
+
+      Fluttertoast.showToast(
+          msg: 'Succesfully login',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      postDataToSP();
+    } else {
+      setState(
+        () {
+          _success = false;
+        },
+      );
+    }
+  }
+
+  postDataToSP() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('uid', StaticData.uid);
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   void initState() {
     _passwordVisible = false;
@@ -113,6 +174,12 @@ class _Contractor_loginState extends State<Contractor_login> {
                                   const EdgeInsets.only(left: 15, right: 15),
                               child: TextFormField(
                                 controller: emailController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
+                                  return null;
+                                },
                                 keyboardType: TextInputType.text,
                                 style: const TextStyle(color: Colors.white),
                                 decoration: const InputDecoration(
@@ -135,27 +202,19 @@ class _Contractor_loginState extends State<Contractor_login> {
                             height: height * 0.08,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              // child: TextFormField(
-                              //   controller: passwordController,
-                              //   decoration: const InputDecoration(
-                              //     suffixIcon: Icon(
-                              //       Icons.remove_red_eye,
-                              //       color: Colors.grey,
-                              //     ),
-                              //     labelText: 'Password',
-                              //     labelStyle: TextStyle(
-                              //       color: Colors.white,
-                              //       fontSize: 17,
-                              //     ),
-                              //   ),
-                              // ),
-
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(left: 15, right: 15),
                                 child: TextFormField(
                                   keyboardType: TextInputType.number,
                                   controller: passwordController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter some text';
+                                    }
+
+                                    return null;
+                                  },
                                   style: const TextStyle(color: Colors.white),
                                   obscureText:
                                       !_passwordVisible, //This will obscure text dynamically
@@ -196,13 +255,31 @@ class _Contractor_loginState extends State<Contractor_login> {
                               ),
                             ),
                           ),
-                          Text(
-                            "Fogot Password?",
-                            style: TextStyle(
-                                color: Colormanager.textcolors,
-                                fontSize: width * 0.035),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Contracterforgetpwd(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              "Fogot Password?",
+                              style: TextStyle(
+                                  color: Colormanager.textcolors,
+                                  fontSize: width * 0.035),
+                            ),
                           ),
                           InkWell(
+                            onTap: () {
+                              () async {
+                                if (_formKey.currentState!.validate()) {
+                                  _signInWithEmailAndPassword();
+                                }
+                              };
+                              _signInWithEmailAndPassword();
+                            },
                             child: Container(
                               height: height * 0.055,
                               width: width * 0.5,
@@ -252,35 +329,42 @@ class _Contractor_loginState extends State<Contractor_login> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Container(
-                                  height: height * 0.06,
-                                  width: width * 0.1,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blue[900],
-                                      shape: BoxShape.circle),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.facebook_sharp,
-                                      color: Colormanager.textcolors,
+                                InkWell(
+                                  child: Container(
+                                    height: height * 0.06,
+                                    width: width * 0.1,
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue[900],
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.facebook_sharp,
+                                        color: Colormanager.textcolors,
+                                      ),
                                     ),
                                   ),
                                 ),
                                 SizedBox(
                                   width: width * 0.06,
                                 ),
-                                Container(
-                                  height: height * 0.06,
-                                  width: width * 0.1,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      shape: BoxShape.circle),
-                                  child: Center(
-                                    child: Text(
-                                      "G",
-                                      style: TextStyle(
-                                          fontSize: width * 0.06,
-                                          color: Colormanager.textcolors,
-                                          fontWeight: FontWeight.bold),
+                                InkWell(
+                                  onTap: () {
+                                    // MyAuthentication.signInWithGoogle(context);
+                                  },
+                                  child: Container(
+                                    height: height * 0.06,
+                                    width: width * 0.1,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle),
+                                    child: Center(
+                                      child: Text(
+                                        "G",
+                                        style: TextStyle(
+                                            fontSize: width * 0.06,
+                                            color: Colormanager.textcolors,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   ),
                                 ),

@@ -10,7 +10,7 @@ class clipper1 extends CustomClipper<Path> {
 
     // path.quadraticBezierTo(0, height * 0.4, width * 0.35, height * 0.4);
 
-    path.quadraticBezierTo(width * 0.5, height * 0.6, width, 0);
+    path.quadraticBezierTo(width * 0.5, height * 0.2, width, 0);
     // path.quadraticBezierTo(width, height, width, 0);
 
     path.lineTo(width, height);
