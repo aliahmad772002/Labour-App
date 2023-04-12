@@ -1,9 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:labour_app/screens/worker/newwork2.dart';
+import 'package:labour_app/utiles/model/workerstatic_data.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
+import 'package:labour_app/screens/worker/worker_forgotpwd.dart';
 import 'package:labour_app/screens/worker/worker_signup.dart';
 import 'package:labour_app/utiles/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Worker_login extends StatefulWidget {
   const Worker_login({super.key});
@@ -15,10 +19,66 @@ class Worker_login extends StatefulWidget {
 class _Worker_loginState extends State<Worker_login> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _passwordVisible = true;
 
   void initState() {
     _passwordVisible = false;
+  }
+
+  bool? _success;
+  String? _userEmail;
+  void _signInWithEmailAndPassword() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    User user = (await _auth.signInWithEmailAndPassword(
+      email: emailController.text,
+      password: passwordController.text,
+    ))
+        .user!;
+
+    if (user != null) {
+      setState(() {
+        workerStaticData.uid = user.uid;
+        print('uiddd ${workerStaticData.uid}');
+        _success = true;
+        _userEmail = user.email!;
+        print('email $_userEmail');
+      });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => newwork2(),
+          ));
+
+      Fluttertoast.showToast(
+          msg: 'Succesfully login',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      postDataToSP();
+    } else {
+      setState(
+        () {
+          _success = false;
+        },
+      );
+    }
+  }
+
+  postDataToSP() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('uid', workerStaticData.uid);
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -187,22 +247,42 @@ class _Worker_loginState extends State<Worker_login> {
                           ),
                         ),
                       ),
-                      Text(
-                        "Fogot Password?",
-                        style: TextStyle(
-                            color: Colormanager.textcolors,
-                            fontSize: width * 0.035),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Workerforgotpwd(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Fogot Password?",
+                          style: TextStyle(
+                              color: Colormanager.textcolors,
+                              fontSize: width * 0.035),
+                        ),
                       ),
-                      Container(
-                        height: height * 0.055,
-                        width: width * 0.5,
-                        decoration: BoxDecoration(
-                            color: Colormanager.ambercolor,
-                            borderRadius: BorderRadius.circular(30)),
-                        child: Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                      InkWell(
+                        onTap: () {
+                          () async {
+                            if (_formKey.currentState!.validate()) {
+                              _signInWithEmailAndPassword();
+                            }
+                          };
+                          _signInWithEmailAndPassword();
+                        },
+                        child: Container(
+                          height: height * 0.055,
+                          width: width * 0.5,
+                          decoration: BoxDecoration(
+                              color: Colormanager.ambercolor,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: Center(
+                            child: Text(
+                              "Login",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),

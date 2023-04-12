@@ -206,10 +206,22 @@ class _Worker_signupState extends State<Worker_signup> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Worker_information(),
+                              builder: (context) => Worker_information(
+                                  confirmpwd: confirmpwdController.text,
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  username: usernameController.text),
                             ),
                           );
                         },
+                        // onTap: () {
+                        //   Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => Worker_information(),
+                        //     ),
+                        //   );
+                        // },
                         child: Container(
                           height: height * 0.055,
                           width: width * 0.5,

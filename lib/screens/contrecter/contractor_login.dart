@@ -201,55 +201,50 @@ class _Contractor_loginState extends State<Contractor_login> {
                           Container(
                             height: height * 0.08,
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 15, right: 15),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  controller: passwordController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
+                              padding:
+                                  const EdgeInsets.only(left: 15, right: 15),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                controller: passwordController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Please enter some text';
+                                  }
 
-                                    return null;
-                                  },
-                                  style: const TextStyle(color: Colors.white),
-                                  obscureText:
-                                      !_passwordVisible, //This will obscure text dynamically
-                                  decoration: InputDecoration(
-                                    focusedBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                    ),
-                                    enabledBorder: const UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.white),
-                                    ),
-                                    labelText: 'Password',
-                                    labelStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                    ),
+                                  return null;
+                                },
+                                style: const TextStyle(color: Colors.white),
+                                obscureText:
+                                    !_passwordVisible, //This will obscure text dynamically
+                                decoration: InputDecoration(
+                                  focusedBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                  enabledBorder: const UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  ),
+                                  labelText: 'Password',
+                                  labelStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                  ),
 
-                                    // Here is key idea
-                                    suffixIcon: IconButton(
-                                      icon: Icon(
-                                        // Based on passwordVisible state choose the icon
-                                        _passwordVisible
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        color:
-                                            Theme.of(context).primaryColorLight,
-                                      ),
-                                      onPressed: () {
-                                        // Update the state i.e. toogle the state of passwordVisible variable
-                                        setState(() {
-                                          _passwordVisible = !_passwordVisible;
-                                        });
-                                      },
+                                  // Here is key idea
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      // Based on passwordVisible state choose the icon
+                                      _passwordVisible
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color:
+                                          Theme.of(context).primaryColorLight,
                                     ),
+                                    onPressed: () {
+                                      // Update the state i.e. toogle the state of passwordVisible variable
+                                      setState(() {
+                                        _passwordVisible = !_passwordVisible;
+                                      });
+                                    },
                                   ),
                                 ),
                               ),

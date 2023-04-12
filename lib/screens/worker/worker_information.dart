@@ -1,14 +1,27 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 import 'package:labour_app/screens/worker/myRadioOption.dart';
 import 'package:labour_app/screens/worker/worker_login.dart';
 import 'package:labour_app/utiles/colors.dart';
+import 'package:labour_app/utiles/model/worker_usermodel.dart';
 
 class Worker_information extends StatefulWidget {
-  const Worker_information({super.key});
+  String username;
+  String email;
+  String password;
+  String confirmpwd;
+  Worker_information(
+      {super.key,
+      required this.username,
+      required this.email,
+      required this.password,
+      required this.confirmpwd});
 
   @override
   State<Worker_information> createState() => _Worker_informationState();
@@ -18,12 +31,84 @@ class _Worker_informationState extends State<Worker_information> {
   TextEditingController jobController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController datecontroller = TextEditingController();
+  TextEditingController experiencecontroller = TextEditingController();
+
   var selectdate;
 
   String? _groupValue;
 
   ValueChanged<String?> _valueChangedHandler() {
     return (value) => setState(() => _groupValue = value!);
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  String? errorMessage;
+  void signUp2() async {
+    try {
+      UserCredential credential = await auth.createUserWithEmailAndPassword(
+          email: widget.email, password: widget.password);
+      if (credential.user != null) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Worker_login(),
+            ));
+        postdatatoFirebase();
+      }
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "invalid-email":
+          errorMessage = "Invalid Email!";
+          break;
+        case "wrong-password":
+          errorMessage = "Wrong Password";
+          break;
+        case "user-not-found":
+          errorMessage = "User with this email doesn't exist.";
+          break;
+        case "user-disabled":
+          errorMessage = "User with this email has been disabled.";
+          break;
+        case "too-many-requests":
+          errorMessage = "Too many requests";
+          break;
+        case "":
+          errorMessage = "Signing in with Email and Password is not enabled.";
+          break;
+        default:
+          errorMessage = "An undefined Error happened.";
+      }
+      Fluttertoast.showToast(
+        msg: errorMessage!,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+
+  void postdatatoFirebase() async {
+    User user = auth.currentUser!;
+    String id = user.uid;
+    Workerusermodel model = Workerusermodel(
+      uname: widget.username,
+      email: widget.email,
+      password: widget.password,
+      cnfpassword: widget.confirmpwd,
+      phoneNO: phoneController.text,
+      uid: id,
+      job: jobController.text,
+      gender: _groupValue,
+      experience: experiencecontroller.text,
+      dateofbirth: selectdate,
+    );
+    await FirebaseFirestore.instance
+        .collection('worker user')
+        .doc(id)
+        .set(model.toMap());
   }
 
   @override
@@ -111,6 +196,7 @@ class _Worker_informationState extends State<Worker_information> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: IntlPhoneField(
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
@@ -148,6 +234,7 @@ class _Worker_informationState extends State<Worker_information> {
                               height: height * 0.06,
                               width: width * 0.5,
                               child: TextFormField(
+                                style: const TextStyle(color: Colors.white),
                                 controller: jobController,
                                 keyboardType: TextInputType.text,
                                 decoration: const InputDecoration(
@@ -184,14 +271,14 @@ class _Worker_informationState extends State<Worker_information> {
                               child: Row(
                                 children: [
                                   MyRadioOption<String>(
-                                    value: '1',
+                                    value: 'Male',
                                     groupValue: _groupValue,
                                     onChanged: _valueChangedHandler(),
                                     // label: '1',
                                     text: 'Male',
                                   ),
                                   MyRadioOption<String>(
-                                    value: '2',
+                                    value: 'Female',
                                     groupValue: _groupValue,
                                     onChanged: _valueChangedHandler(),
                                     // label: '2',
@@ -226,12 +313,41 @@ class _Worker_informationState extends State<Worker_information> {
                                       color: Colors.amber,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    child: Center(
-                                        child: Text(
-                                      "Year",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )),
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 30, right: 15),
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.number,
+                                        controller: experiencecontroller,
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter some text';
+                                          }
+
+                                          return null;
+                                        },
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                        decoration: InputDecoration(
+                                          focusedBorder:
+                                              const UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.amber),
+                                          ),
+                                          enabledBorder:
+                                              const UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.amber),
+                                          ),
+                                          labelText: 'year',
+                                          labelStyle: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+
+                                          // Here is key idea
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -291,12 +407,7 @@ class _Worker_informationState extends State<Worker_information> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Worker_login(),
-                            ),
-                          );
+                          signUp2();
                         },
                         child: Container(
                           height: height * 0.055,

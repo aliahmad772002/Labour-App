@@ -82,17 +82,17 @@ class _contracter_informationState extends State<contracter_information> {
     User user = auth.currentUser!;
     String id = user.uid;
     Contractorusermodel model = Contractorusermodel(
-      adress: adressController.text,
-      cnfpassword: widget.confirmpwd,
-      company: companyController.text,
+      uname: widget.username,
       email: widget.email,
       password: widget.password,
+      cnfpassword: widget.confirmpwd,
       phoneNO: phoneController.text,
-      uname: widget.username,
+      adress: adressController.text,
+      company: companyController.text,
       uid: id,
     );
     await FirebaseFirestore.instance
-        .collection('users')
+        .collection('contracter user')
         .doc(id)
         .set(model.toMap());
   }
@@ -182,6 +182,7 @@ class _contracter_informationState extends State<contracter_information> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 15, right: 15),
                           child: IntlPhoneField(
+                            style: const TextStyle(color: Colors.white),
                             decoration: const InputDecoration(
                               labelText: 'Phone Number',
                               labelStyle: TextStyle(
