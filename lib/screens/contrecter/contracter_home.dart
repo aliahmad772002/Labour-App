@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:labour_app/screens/contrecter/contract_work.dart';
 
 import 'package:labour_app/screens/contrecter/contracter_dashboard.dart';
 import 'package:labour_app/screens/contrecter/contracter_profile.dart';
 import 'package:labour_app/screens/contrecter/contracter_setting.dart';
+import 'package:labour_app/utiles/colors.dart';
 
 import 'package:labour_app/utiles/model/contractor_usermodel.dart';
 import 'package:labour_app/utiles/model/static_data.dart';
@@ -134,7 +136,7 @@ class _ContracterhomeState extends State<Contracterhome> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Contracter_setting(),
+                        builder: (context) => Contract_work(),
                       ),
                     );
                   },
@@ -327,7 +329,7 @@ class _ContracterhomeState extends State<Contracterhome> {
 
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
-                          .collection('worker user')
+                          .collection('workerUser')
                           .snapshots(),
                       builder: (context, snapshot) {
                         return snapshot.data == null
@@ -344,269 +346,312 @@ class _ContracterhomeState extends State<Contracterhome> {
                                       itemBuilder: (context, index) {
                                         return Padding(
                                           padding: EdgeInsets.all(8.0),
-                                          // child: Container(
-                                          //   height: height * 0.25,
-                                          //   width: width * 0.9,
-                                          //   decoration: BoxDecoration(
-                                          //     borderRadius:
-                                          //         BorderRadius.circular(20),
-                                          //     // color: Colormanager.headingcolor
-                                          //     color: Colormanager.headingcolor
-                                          //         .withOpacity(0.25),
-                                          //   ),
-                                          //   child: Row(
-                                          //     children: [
-                                          //       Container(
-                                          //         height: height * 0.2,
-                                          //         width: width * 0.3,
-                                          //         // color: Colors.amber,
-                                          //         child: Column(
-                                          //           mainAxisAlignment:
-                                          //               MainAxisAlignment
-                                          //                   .spaceAround,
-                                          //           children: [
-                                          //             Container(
-                                          //               height: height * 0.15,
-                                          //               width: width * 0.25,
-                                          //               decoration:
-                                          //                   BoxDecoration(
-                                          //                       // color: Colors.black,
-                                          //                       borderRadius:
-                                          //                           BorderRadius
-                                          //                               .circular(
-                                          //                                   10)),
-                                          //               child: Image(
-                                          //                   // color: Colors.white,
-                                          //                   fit: BoxFit.fill,
-                                          //                   image: AssetImage(
-                                          //                       "images/person.png")),
-                                          //             ),
-                                          //             Row(
-                                          //               mainAxisAlignment:
-                                          //                   MainAxisAlignment
-                                          //                       .center,
-                                          //               children: [
-                                          //                 Icon(
-                                          //                   Icons.star,
-                                          //                   size: width * 0.05,
-                                          //                   color: Colors.amber,
-                                          //                 ),
-                                          //                 Icon(
-                                          //                   Icons.star,
-                                          //                   size: width * 0.05,
-                                          //                   color: Colors.amber,
-                                          //                 ),
-                                          //                 Icon(
-                                          //                   Icons.star,
-                                          //                   size: width * 0.05,
-                                          //                   color: Colors.amber,
-                                          //                 ),
-                                          //                 Icon(
-                                          //                   Icons.star,
-                                          //                   size: width * 0.05,
-                                          //                   color: Colors.amber,
-                                          //                 ),
-                                          //                 Icon(
-                                          //                   Icons.star,
-                                          //                   size: width * 0.05,
-                                          //                   color: Colors.amber,
-                                          //                 ),
-                                          //               ],
-                                          //             ),
-                                          //           ],
-                                          //         ),
-                                          //       ),
-                                          //       Container(
-                                          //           height: height * 0.2,
-                                          //           width: width * 0.38,
-                                          //           child: Column(
-                                          //             crossAxisAlignment:
-                                          //                 CrossAxisAlignment
-                                          //                     .start,
-                                          //             mainAxisAlignment:
-                                          //                 MainAxisAlignment
-                                          //                     .spaceEvenly,
-                                          //             children: [
-                                          //               // snapshot
-                                          //               //     .data!.docs[index]
-                                          //               //     .get('uname'),
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Container(
-                                          //                     height:
-                                          //                         height * 0.03,
-                                          //                     width:
-                                          //                         width * 0.06,
-                                          //                     decoration:
-                                          //                         BoxDecoration(
-                                          //                       shape: BoxShape
-                                          //                           .circle,
-                                          //                       color: Colors
-                                          //                           .amber,
-                                          //                     ),
-                                          //                     child: Center(
-                                          //                       child: Icon(
-                                          //                         Icons
-                                          //                             .g_mobiledata_outlined,
-                                          //                         size: width *
-                                          //                             0.04,
-                                          //                         color: Colors
-                                          //                             .white,
-                                          //                       ),
-                                          //                     ),
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width:
-                                          //                         width * 0.02,
-                                          //                   ),
-                                          //                   // snapshot.data!
-                                          //                   //     .docs[index]
-                                          //                   //     .get('email'),
-                                          //                 ],
-                                          //               ),
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Container(
-                                          //                     height:
-                                          //                         height * 0.03,
-                                          //                     width:
-                                          //                         width * 0.06,
-                                          //                     decoration:
-                                          //                         BoxDecoration(
-                                          //                       shape: BoxShape
-                                          //                           .circle,
-                                          //                       color: Colors
-                                          //                           .amber,
-                                          //                     ),
-                                          //                     child: Center(
-                                          //                       child: Icon(
-                                          //                         Icons
-                                          //                             .note_add,
-                                          //                         size: width *
-                                          //                             0.03,
-                                          //                         color: Colors
-                                          //                             .white,
-                                          //                       ),
-                                          //                     ),
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width:
-                                          //                         width * 0.02,
-                                          //                   ),
-                                          //                   // snapshot.data!
-                                          //                   //     .docs[index]
-                                          //                   //     .get('job'),
-                                          //                 ],
-                                          //               ),
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Container(
-                                          //                     height:
-                                          //                         height * 0.03,
-                                          //                     width:
-                                          //                         width * 0.06,
-                                          //                     decoration:
-                                          //                         BoxDecoration(
-                                          //                       shape: BoxShape
-                                          //                           .circle,
-                                          //                       color: Colors
-                                          //                           .amber,
-                                          //                     ),
-                                          //                     child: Center(
-                                          //                       child: Icon(
-                                          //                         Icons
-                                          //                             .emoji_people_outlined,
-                                          //                         size: width *
-                                          //                             0.03,
-                                          //                         color: Colors
-                                          //                             .white,
-                                          //                       ),
-                                          //                     ),
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width:
-                                          //                         width * 0.02,
-                                          //                   ),
-                                          //                   // snapshot.data!
-                                          //                   //     .docs[index]
-                                          //                   //     .get('gender'),
-                                          //                 ],
-                                          //               ),
-                                          //               Row(
-                                          //                 children: [
-                                          //                   Container(
-                                          //                     height:
-                                          //                         height * 0.03,
-                                          //                     width:
-                                          //                         width * 0.06,
-                                          //                     decoration:
-                                          //                         BoxDecoration(
-                                          //                       shape: BoxShape
-                                          //                           .circle,
-                                          //                       color: Colors
-                                          //                           .amber,
-                                          //                     ),
-                                          //                     child: Center(
-                                          //                       child: Icon(
-                                          //                         Icons.done,
-                                          //                         size: width *
-                                          //                             0.03,
-                                          //                         color: Colors
-                                          //                             .white,
-                                          //                       ),
-                                          //                     ),
-                                          //                   ),
-                                          //                   SizedBox(
-                                          //                     width:
-                                          //                         width * 0.02,
-                                          //                   ),
-                                          //                   // snapshot.data!
-                                          //                   //     .docs[index]
-                                          //                   //     .get(
-                                          //                   //         'experience'),
-                                          //                 ],
-                                          //               ),
-                                          //             ],
-                                          //           )),
-                                          //       Container(
-                                          //           height: height * 0.2,
-                                          //           width: width * 0.25,
-                                          //           child: Column(
-                                          //             mainAxisAlignment:
-                                          //                 MainAxisAlignment.end,
-                                          //             children: [
-                                          //               Container(
-                                          //                 height: height * 0.05,
-                                          //                 width: width * 0.21,
-                                          //                 decoration:
-                                          //                     BoxDecoration(
-                                          //                   color:
-                                          //                       Colors.orange,
-                                          //                   borderRadius:
-                                          //                       BorderRadius
-                                          //                           .circular(
-                                          //                               10),
-                                          //                 ),
-                                          //                 child: Center(
-                                          //                   child: Text(
-                                          //                     "Detail",
-                                          //                     style: TextStyle(
-                                          //                         color: Colors
-                                          //                             .black,
-                                          //                         fontSize:
-                                          //                             width *
-                                          //                                 0.04,
-                                          //                         fontWeight:
-                                          //                             FontWeight
-                                          //                                 .bold),
-                                          //                   ),
-                                          //                 ),
-                                          //               ),
-                                          //             ],
-                                          //           )),
-                                          //     ],
-                                          //   ),
-                                          // ),
+                                          child: Container(
+                                            height: height * 0.25,
+                                            width: width * 0.9,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              // color: Colormanager.headingcolor
+                                              color: Colormanager.headingcolor
+                                                  .withOpacity(0.25),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: height * 0.2,
+                                                  width: width * 0.3,
+                                                  // color: Colors.amber,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Container(
+                                                        height: height * 0.15,
+                                                        width: width * 0.25,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                                // color: Colors.black,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10)),
+                                                        child: Image(
+                                                            // color: Colors.white,
+                                                            fit: BoxFit.fill,
+                                                            image: AssetImage(
+                                                                "images/person.png")),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: width * 0.05,
+                                                            color: Colors.amber,
+                                                          ),
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: width * 0.05,
+                                                            color: Colors.amber,
+                                                          ),
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: width * 0.05,
+                                                            color: Colors.amber,
+                                                          ),
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: width * 0.05,
+                                                            color: Colors.amber,
+                                                          ),
+                                                          Icon(
+                                                            Icons.star,
+                                                            size: width * 0.05,
+                                                            color: Colors.amber,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Container(
+                                                    height: height * 0.2,
+                                                    width: width * 0.38,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Text(
+                                                          snapshot
+                                                              .data!.docs[index]
+                                                              .get('uname'),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize:
+                                                                  width * 0.05),
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height:
+                                                                  height * 0.03,
+                                                              width:
+                                                                  width * 0.06,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .amber,
+                                                              ),
+                                                              child: Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .g_mobiledata_outlined,
+                                                                  size: width *
+                                                                      0.04,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.02,
+                                                            ),
+                                                            Text(
+                                                              snapshot.data!
+                                                                  .docs[index]
+                                                                  .get('email'),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      width *
+                                                                          0.03),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height:
+                                                                  height * 0.03,
+                                                              width:
+                                                                  width * 0.06,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .amber,
+                                                              ),
+                                                              child: Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .note_add,
+                                                                  size: width *
+                                                                      0.03,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.02,
+                                                            ),
+                                                            Text(
+                                                              snapshot.data!
+                                                                  .docs[index]
+                                                                  .get('job'),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      width *
+                                                                          0.03),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height:
+                                                                  height * 0.03,
+                                                              width:
+                                                                  width * 0.06,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .amber,
+                                                              ),
+                                                              child: Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .emoji_people_outlined,
+                                                                  size: width *
+                                                                      0.03,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.02,
+                                                            ),
+                                                            Text(
+                                                              snapshot.data!
+                                                                  .docs[index]
+                                                                  .get(
+                                                                      'gender'),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      width *
+                                                                          0.03),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Container(
+                                                              height:
+                                                                  height * 0.03,
+                                                              width:
+                                                                  width * 0.06,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                                color: Colors
+                                                                    .amber,
+                                                              ),
+                                                              child: Center(
+                                                                child: Icon(
+                                                                  Icons.done,
+                                                                  size: width *
+                                                                      0.03,
+                                                                  color: Colors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              width:
+                                                                  width * 0.02,
+                                                            ),
+                                                            Text(
+                                                              snapshot.data!
+                                                                  .docs[index]
+                                                                  .get(
+                                                                      'experience'),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      width *
+                                                                          0.03),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )),
+                                                Container(
+                                                    height: height * 0.2,
+                                                    width: width * 0.25,
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        Container(
+                                                          height: height * 0.05,
+                                                          width: width * 0.21,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color:
+                                                                Colors.orange,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "Detail",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      width *
+                                                                          0.04,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
                                         );
                                       }),
                                 ),

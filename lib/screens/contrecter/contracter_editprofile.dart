@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:labour_app/utiles/model/static_data.dart';
 
 class Contracter_editprofile extends StatefulWidget {
   const Contracter_editprofile({super.key});
@@ -15,7 +17,10 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
   TextEditingController companyname = TextEditingController();
   TextEditingController address = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  var username;
+  var phone;
+  var company;
+  var adress;
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -144,6 +149,11 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        username = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ]),
@@ -183,7 +193,7 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                             BorderSide(color: Colors.white),
                                       ),
                                       prefixIcon: Icon(
-                                        Icons.person,
+                                        Icons.phone,
                                         color: Colors.white,
                                       ),
                                       labelText: 'Phone number',
@@ -192,6 +202,11 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        phone = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ]),
@@ -232,7 +247,7 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                       ),
                                       prefixIconColor: Colors.white,
                                       prefixIcon: Icon(
-                                        Icons.person,
+                                        Icons.home_work_rounded,
                                         color: Colors.white,
                                       ),
                                       labelText: 'Company Name',
@@ -241,6 +256,11 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        company = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ]),
@@ -281,7 +301,7 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                       ),
                                       prefixIconColor: Colors.white,
                                       prefixIcon: Icon(
-                                        Icons.person,
+                                        Icons.home,
                                         color: Colors.white,
                                       ),
                                       labelText: 'Address',
@@ -290,6 +310,11 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        adress = value;
+                                      });
+                                    },
                                   ),
                                 ),
                               ]),
@@ -297,6 +322,7 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
                         InkWell(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
+                              updateusername();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text('updated')),
                               );
@@ -324,5 +350,18 @@ class _Contracter_editprofileState extends State<Contracter_editprofile> {
         ),
       ),
     );
+  }
+
+  updateusername() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection("contracterUser")
+        .doc(StaticData.uid)
+        .update({
+      "uname": username,
+      "phoneNO": phone,
+      "company": company,
+      "adress": adress,
+    });
   }
 }

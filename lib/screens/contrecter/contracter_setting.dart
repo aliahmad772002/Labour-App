@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:labour_app/screens/contrecter/contract_work.dart';
 import 'package:labour_app/screens/contrecter/contracter_editprofile.dart';
 import 'package:labour_app/screens/contrecter/contractor_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +28,7 @@ class _Contracter_settingState extends State<Contracter_setting> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const Contractor_login(),
+          builder: (context) => const Contract_work(),
         ));
   }
 

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:labour_app/screens/contrecter/contract_work.dart';
 
 import 'package:labour_app/screens/contrecter/contracter_editprofile.dart';
 import 'package:labour_app/screens/contrecter/contractor_login.dart';
@@ -26,7 +27,7 @@ class _Worker_settingState extends State<Worker_setting> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const Contractor_login(),
+          builder: (context) => const Contract_work(),
         ));
   }
 
