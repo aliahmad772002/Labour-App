@@ -67,10 +67,11 @@ class _page_viewState extends State<page_view> {
                           height: height * 0.06,
                           width: width * 0.8,
                           decoration: BoxDecoration(
-                              color: Colormanager.ambercolor,
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20))),
+                            color: Colormanager.ambercolor,
+                            borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                topLeft: Radius.circular(20)),
+                          ),
                           alignment: Alignment.center,
                           child: Text(
                             'Hiring Aplicants',

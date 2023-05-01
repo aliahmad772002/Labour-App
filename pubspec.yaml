@@ -46,6 +46,8 @@ dependencies:
   shared_preferences:
   google_sign_in: 
   flutter_datetime_picker:
+  google_nav_bar:
+  intl:
   
   
  

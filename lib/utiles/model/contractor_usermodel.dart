@@ -10,6 +10,7 @@ class Contractorusermodel {
   String? phoneNO;
   String? company;
   String? adress;
+  var time;
   Contractorusermodel({
     this.uname,
     this.email,
@@ -19,6 +20,7 @@ class Contractorusermodel {
     this.phoneNO,
     this.company,
     this.adress,
+    this.time,
   });
 
   Contractorusermodel copyWith({
@@ -30,6 +32,7 @@ class Contractorusermodel {
     String? phoneNO,
     String? company,
     String? adress,
+    String? time,
   }) {
     return Contractorusermodel(
       uname: uname ?? this.uname,
@@ -40,6 +43,7 @@ class Contractorusermodel {
       phoneNO: phoneNO ?? this.phoneNO,
       company: company ?? this.company,
       adress: adress ?? this.adress,
+      time: time ?? this.time,
     );
   }
 
@@ -53,6 +57,7 @@ class Contractorusermodel {
       'phoneNO': phoneNO,
       'company': company,
       'adress': adress,
+      'time': time,
     };
   }
 
@@ -67,6 +72,7 @@ class Contractorusermodel {
       phoneNO: map['phoneNO'] != null ? map['phoneNO'] as String : null,
       company: map['company'] != null ? map['company'] as String : null,
       adress: map['adress'] != null ? map['adress'] as String : null,
+      time: map['time'] != null ? map['time'] as String : null,
     );
   }
 
@@ -77,7 +83,7 @@ class Contractorusermodel {
 
   @override
   String toString() {
-    return 'Contractorusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, company: $company, adress: $adress)';
+    return 'Contractorusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, company: $company, adress: $adress, time: $time)';
   }
 
   @override
@@ -91,7 +97,8 @@ class Contractorusermodel {
         other.uid == uid &&
         other.phoneNO == phoneNO &&
         other.company == company &&
-        other.adress == adress;
+        other.adress == adress &&
+        other.time == time;
   }
 
   @override
@@ -103,6 +110,7 @@ class Contractorusermodel {
         uid.hashCode ^
         phoneNO.hashCode ^
         company.hashCode ^
-        adress.hashCode;
+        adress.hashCode ^
+        time.hashCode;
   }
 }

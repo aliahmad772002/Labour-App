@@ -12,6 +12,7 @@ class Workerusermodel {
   String? gender;
   String? experience;
   String? dateofbirth;
+  String? address;
   Workerusermodel({
     this.uname,
     this.email,
@@ -23,6 +24,7 @@ class Workerusermodel {
     this.gender,
     this.experience,
     this.dateofbirth,
+    this.address,
   });
 
   Workerusermodel copyWith({
@@ -36,6 +38,7 @@ class Workerusermodel {
     String? gender,
     String? experience,
     String? dateofbirth,
+    String? address,
   }) {
     return Workerusermodel(
       uname: uname ?? this.uname,
@@ -48,6 +51,7 @@ class Workerusermodel {
       gender: gender ?? this.gender,
       experience: experience ?? this.experience,
       dateofbirth: dateofbirth ?? this.dateofbirth,
+      address: address ?? this.address,
     );
   }
 
@@ -63,6 +67,7 @@ class Workerusermodel {
       'gender': gender,
       'experience': experience,
       'dateofbirth': dateofbirth,
+      'address': address,
     };
   }
 
@@ -81,6 +86,7 @@ class Workerusermodel {
           map['experience'] != null ? map['experience'] as String : null,
       dateofbirth:
           map['dateofbirth'] != null ? map['dateofbirth'] as String : null,
+      address: map['address'] != null ? map['address'] as String : null,
     );
   }
 
@@ -91,7 +97,7 @@ class Workerusermodel {
 
   @override
   String toString() {
-    return 'Workerusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, job: $job, gender: $gender, experience: $experience, dateofbirth: $dateofbirth)';
+    return 'Workerusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, job: $job, gender: $gender, experience: $experience, dateofbirth: $dateofbirth, address: $address)';
   }
 
   @override
@@ -107,7 +113,8 @@ class Workerusermodel {
         other.job == job &&
         other.gender == gender &&
         other.experience == experience &&
-        other.dateofbirth == dateofbirth;
+        other.dateofbirth == dateofbirth &&
+        other.address == address;
   }
 
   @override
@@ -121,6 +128,7 @@ class Workerusermodel {
         job.hashCode ^
         gender.hashCode ^
         experience.hashCode ^
-        dateofbirth.hashCode;
+        dateofbirth.hashCode ^
+        address.hashCode;
   }
 }

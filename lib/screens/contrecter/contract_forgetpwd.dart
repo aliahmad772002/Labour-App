@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 import 'package:labour_app/screens/contrecter/contractor_login.dart';
 import 'package:labour_app/utiles/colors.dart';
