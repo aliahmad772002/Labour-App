@@ -7,16 +7,20 @@ class Contracter_jobpostmodel {
   String? category;
   String? hourlyprice;
   String? date;
+  String? time;
   String? id;
   String? name;
+  String? contactorID;
   Contracter_jobpostmodel({
     this.jobtitle,
     this.description,
     this.category,
     this.hourlyprice,
     this.date,
+    this.time,
     this.id,
     this.name,
+    this.contactorID,
   });
 
   Contracter_jobpostmodel copyWith({
@@ -25,8 +29,10 @@ class Contracter_jobpostmodel {
     String? category,
     String? hourlyprice,
     String? date,
+    String? time,
     String? id,
     String? name,
+    String? contactorID,
   }) {
     return Contracter_jobpostmodel(
       jobtitle: jobtitle ?? this.jobtitle,
@@ -34,8 +40,10 @@ class Contracter_jobpostmodel {
       category: category ?? this.category,
       hourlyprice: hourlyprice ?? this.hourlyprice,
       date: date ?? this.date,
+      time: time ?? this.time,
       id: id ?? this.id,
       name: name ?? this.name,
+      contactorID: contactorID ?? this.contactorID,
     );
   }
 
@@ -46,8 +54,10 @@ class Contracter_jobpostmodel {
       'category': category,
       'hourlyprice': hourlyprice,
       'date': date,
+      'time': time,
       'id': id,
       'name': name,
+      'contactorID': contactorID,
     };
   }
 
@@ -60,8 +70,11 @@ class Contracter_jobpostmodel {
       hourlyprice:
           map['hourlyprice'] != null ? map['hourlyprice'] as String : null,
       date: map['date'] != null ? map['date'] as String : null,
+      time: map['time'] != null ? map['time'] as String : null,
       id: map['id'] != null ? map['id'] as String : null,
       name: map['name'] != null ? map['name'] as String : null,
+      contactorID:
+          map['contactorID'] != null ? map['contactorID'] as String : null,
     );
   }
 
@@ -73,7 +86,7 @@ class Contracter_jobpostmodel {
 
   @override
   String toString() {
-    return 'Contracter_jobpostmodel(jobtitle: $jobtitle, description: $description, category: $category, hourlyprice: $hourlyprice, date: $date, id: $id, name: $name)';
+    return 'Contracter_jobpostmodel(jobtitle: $jobtitle, description: $description, category: $category, hourlyprice: $hourlyprice, date: $date, time: $time, id: $id, name: $name, contactorID: $contactorID)';
   }
 
   @override
@@ -85,8 +98,10 @@ class Contracter_jobpostmodel {
         other.category == category &&
         other.hourlyprice == hourlyprice &&
         other.date == date &&
+        other.time == time &&
         other.id == id &&
-        other.name == name;
+        other.name == name &&
+        other.contactorID == contactorID;
   }
 
   @override
@@ -96,7 +111,9 @@ class Contracter_jobpostmodel {
         category.hashCode ^
         hourlyprice.hashCode ^
         date.hashCode ^
+        time.hashCode ^
         id.hashCode ^
-        name.hashCode;
+        name.hashCode ^
+        contactorID.hashCode;
   }
 }

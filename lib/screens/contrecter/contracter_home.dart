@@ -1,14 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:labour_app/screens/contrecter/contract_work.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:labour_app/screens/contrecter/contracter_application.dart';
 
 import 'package:labour_app/screens/contrecter/contracter_dashboard.dart';
 import 'package:labour_app/screens/contrecter/contracter_profile.dart';
 import 'package:labour_app/screens/contrecter/contracter_setting.dart';
+import 'package:labour_app/screens/contrecter/worker_detail.dart';
 import 'package:labour_app/utiles/colors.dart';
 
 import 'package:labour_app/utiles/model/contractor_usermodel.dart';
 import 'package:labour_app/utiles/model/static_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utiles/model/worker_usermodel.dart';
 
 class Contracterhome extends StatefulWidget {
   const Contracterhome({super.key});
@@ -19,7 +25,7 @@ class Contracterhome extends StatefulWidget {
 
 class _ContracterhomeState extends State<Contracterhome> {
   TextEditingController searchController = TextEditingController();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
   void getUser() async {
     await FirebaseFirestore.instance
         .collection('contracterUser')
@@ -36,6 +42,23 @@ class _ContracterhomeState extends State<Contracterhome> {
   void initState() {
     getUser();
     super.initState();
+  }
+
+  void logout() async {
+    await auth.signOut();
+    clearSF();
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Contract_work(),
+        ));
+  }
+
+  void clearSF() async {
+    SharedPreferences sharedprfrence = await SharedPreferences.getInstance();
+    sharedprfrence.getKeys();
+    sharedprfrence.clear();
   }
 
   @override
@@ -55,14 +78,14 @@ class _ContracterhomeState extends State<Contracterhome> {
             Padding(
               padding: const EdgeInsets.only(right: 30),
               child: InkWell(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => Cart(),
-                //     ),
-                //   );
-                // },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Applicationlist(),
+                    ),
+                  );
+                },
                 child: Icon(
                   Icons.message,
                   color: Colors.white,
@@ -136,7 +159,7 @@ class _ContracterhomeState extends State<Contracterhome> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Contract_work(),
+                        builder: (context) => Contracter_setting(),
                       ),
                     );
                   },
@@ -147,7 +170,9 @@ class _ContracterhomeState extends State<Contracterhome> {
                         fontSize: 25,
                         color: Colors.white,
                       )),
-                  onTap: () {},
+                  onTap: () {
+                    logout();
+                  },
                 ),
               ],
             ),
@@ -337,7 +362,7 @@ class _ContracterhomeState extends State<Contracterhome> {
                             : Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Container(
-                                  height: height * 0.55,
+                                  height: height * 0.5,
                                   width: width,
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10)),
@@ -613,42 +638,76 @@ class _ContracterhomeState extends State<Contracterhome> {
                                                         ),
                                                       ],
                                                     )),
-                                                Container(
-                                                    height: height * 0.2,
-                                                    width: width * 0.25,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: [
-                                                        Container(
-                                                          height: height * 0.05,
-                                                          width: width * 0.21,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                Colors.orange,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                          ),
-                                                          child: Center(
-                                                            child: Text(
-                                                              "Detail",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  fontSize:
-                                                                      width *
-                                                                          0.04,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
+                                                InkWell(
+                                                  onTap: () {
+                                                    Workerusermodel model =
+                                                        Workerusermodel(
+                                                      uname: snapshot.data!
+                                                          .docs[index]['uname'],
+                                                      email: snapshot.data!
+                                                          .docs[index]['email'],
+                                                      phoneNO: snapshot
+                                                              .data!.docs[index]
+                                                          ['phoneNO'],
+                                                      experience: snapshot
+                                                              .data!.docs[index]
+                                                          ['experience'],
+                                                      job: snapshot.data!
+                                                          .docs[index]['job'],
+                                                      dateofbirth: snapshot
+                                                              .data!.docs[index]
+                                                          ['dateofbirth'],
+                                                    );
+
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Worker_detail(
+                                                          model: model,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                      height: height * 0.2,
+                                                      width: width * 0.25,
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Container(
+                                                            height:
+                                                                height * 0.05,
+                                                            width: width * 0.21,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.orange,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                "Detail",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        width *
+                                                                            0.04,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    )),
+                                                        ],
+                                                      )),
+                                                ),
                                               ],
                                             ),
                                           ),

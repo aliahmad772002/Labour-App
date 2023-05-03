@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/screens/contrecter/contracter_dashboard.dart';
 import 'package:labour_app/utiles/model/contracter_jobpostmodel.dart';
+import 'package:labour_app/utiles/model/contractor_usermodel.dart';
 import 'package:labour_app/utiles/model/static_data.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,20 +30,24 @@ class _PostjobState extends State<Postjob> {
     'Fixer',
   ];
   void postjobdatatoDB() async {
-    String id = Uuid().v4();
+    var dt = DateTime.now();
+    var time = '${dt.hour} : ${dt.hour}';
+    // String id = Uuid().v4();
     Contracter_jobpostmodel model = Contracter_jobpostmodel(
       category: categoryvalue!,
       date: selectdate,
       description: descriptionController.text,
       hourlyprice: hourlyrateController.text,
       jobtitle: jobController.text,
-      id: id,
+      id: StaticData.uid,
       name: StaticData.loggedInUser.uname,
+      time: time,
+      contactorID: StaticData.uid,
     );
 
     await FirebaseFirestore.instance
         .collection('jobs')
-        .doc(id)
+        .doc()
         .set(model.toMap());
     Fluttertoast.showToast(
       msg: 'Succesfully job posted',

@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:labour_app/screens/contrecter/contract_work.dart';
 import 'package:labour_app/screens/contrecter/contracter_editprofile.dart';
-import 'package:labour_app/screens/contrecter/contractor_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Contracter_setting extends StatefulWidget {

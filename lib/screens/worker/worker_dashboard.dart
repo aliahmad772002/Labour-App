@@ -20,7 +20,7 @@ class _Worker_dashboardState extends State<Worker_dashboard> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _screens = [
     Workerhomepage(),
-    Worker_applyjob(),
+    JobsPageScreen(),
     Worker_setting(),
     Worker_profile(),
   ];

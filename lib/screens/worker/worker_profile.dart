@@ -331,6 +331,7 @@ class _Worker_profileState extends State<Worker_profile> {
                                           ),
                                         ],
                                       )),
+
                                   // Text(
                                   //   "Adress",
                                   //   style: TextStyle(

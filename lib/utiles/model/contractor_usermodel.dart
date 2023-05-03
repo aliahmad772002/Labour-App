@@ -10,7 +10,8 @@ class Contractorusermodel {
   String? phoneNO;
   String? company;
   String? adress;
-  var time;
+  String? time;
+  String? contractertokenID;
   Contractorusermodel({
     this.uname,
     this.email,
@@ -21,6 +22,7 @@ class Contractorusermodel {
     this.company,
     this.adress,
     this.time,
+    this.contractertokenID,
   });
 
   Contractorusermodel copyWith({
@@ -33,6 +35,7 @@ class Contractorusermodel {
     String? company,
     String? adress,
     String? time,
+    String? contractertokenID,
   }) {
     return Contractorusermodel(
       uname: uname ?? this.uname,
@@ -44,6 +47,7 @@ class Contractorusermodel {
       company: company ?? this.company,
       adress: adress ?? this.adress,
       time: time ?? this.time,
+      contractertokenID: contractertokenID ?? this.contractertokenID,
     );
   }
 
@@ -58,6 +62,7 @@ class Contractorusermodel {
       'company': company,
       'adress': adress,
       'time': time,
+      'contractertokenID': contractertokenID,
     };
   }
 
@@ -73,6 +78,9 @@ class Contractorusermodel {
       company: map['company'] != null ? map['company'] as String : null,
       adress: map['adress'] != null ? map['adress'] as String : null,
       time: map['time'] != null ? map['time'] as String : null,
+      contractertokenID: map['contractertokenID'] != null
+          ? map['contractertokenID'] as String
+          : null,
     );
   }
 
@@ -83,7 +91,7 @@ class Contractorusermodel {
 
   @override
   String toString() {
-    return 'Contractorusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, company: $company, adress: $adress, time: $time)';
+    return 'Contractorusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, company: $company, adress: $adress, time: $time, contractertokenID: $contractertokenID)';
   }
 
   @override
@@ -98,7 +106,8 @@ class Contractorusermodel {
         other.phoneNO == phoneNO &&
         other.company == company &&
         other.adress == adress &&
-        other.time == time;
+        other.time == time &&
+        other.contractertokenID == contractertokenID;
   }
 
   @override
@@ -111,6 +120,7 @@ class Contractorusermodel {
         phoneNO.hashCode ^
         company.hashCode ^
         adress.hashCode ^
-        time.hashCode;
+        time.hashCode ^
+        contractertokenID.hashCode;
   }
 }

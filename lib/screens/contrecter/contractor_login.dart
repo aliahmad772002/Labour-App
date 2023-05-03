@@ -5,8 +5,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 import 'package:labour_app/screens/contrecter/contract_forgetpwd.dart';
 import 'package:labour_app/screens/contrecter/contracter_dashboard.dart';
-import 'package:labour_app/screens/contrecter/contracter_gmail.dart';
-import 'package:labour_app/screens/contrecter/contracter_home.dart';
 import 'package:labour_app/screens/contrecter/contractor_signup.dart';
 
 import 'package:labour_app/utiles/colors.dart';
@@ -282,14 +280,6 @@ class _Contractor_loginState extends State<Contractor_login> {
                                 }
                                 _signInWithEmailAndPassword();
                               },
-                              // onTap: () {
-                              //   () async {
-                              //     if (_formKey.currentState!.validate()) {
-                              //       // _signInWithEmailAndPassword();
-                              //     }
-                              //   };
-                              //   // _signInWithEmailAndPassword();
-                              // },
                               child: Container(
                                 height: height * 0.055,
                                 width: width * 0.5,
@@ -359,9 +349,9 @@ class _Contractor_loginState extends State<Contractor_login> {
                                     width: width * 0.06,
                                   ),
                                   InkWell(
-                                    onTap: () {
-                                      signInwithgoogle(context);
-                                    },
+                                    // onTap: () {
+                                    //   signInwithgoogle(context);
+                                    // },
                                     child: Container(
                                       height: height * 0.06,
                                       width: width * 0.1,

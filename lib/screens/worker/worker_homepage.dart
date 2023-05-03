@@ -1,5 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:labour_app/screens/contrecter/contract_work.dart';
+import 'package:labour_app/screens/worker/worker_dashboard.dart';
+import 'package:labour_app/screens/worker/worker_jobdetailsapply.dart';
+import 'package:labour_app/screens/worker/worker_profile.dart';
+import 'package:labour_app/screens/worker/worker_setting.dart';
+import 'package:labour_app/utiles/model/contracter_jobpostmodel.dart';
+import 'package:labour_app/utiles/model/static_data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Workerhomepage extends StatefulWidget {
   const Workerhomepage({super.key});
@@ -10,6 +19,24 @@ class Workerhomepage extends StatefulWidget {
 
 class _WorkerhomepageState extends State<Workerhomepage> {
   TextEditingController searchController = TextEditingController();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  void logout() async {
+    await auth.signOut();
+    clearSF();
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Contract_work(),
+        ));
+  }
+
+  void clearSF() async {
+    SharedPreferences sharedprfrence = await SharedPreferences.getInstance();
+    sharedprfrence.getKeys();
+    sharedprfrence.clear();
+  }
 
   var height, width;
   @override
@@ -18,6 +45,116 @@ class _WorkerhomepageState extends State<Workerhomepage> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+            // color: Colors.black,
+
+            ),
+        backgroundColor: Colors.transparent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 30),
+            child: InkWell(
+              // onTap: () {
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => Cart(),
+              //     ),
+              //   );
+              // },
+              child: Icon(
+                Icons.message,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+          )
+        ],
+      ),
+      drawer: FractionallySizedBox(
+        // elevation: 10.0,
+        child: Container(
+          height: height,
+          width: width,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                fit: BoxFit.cover, image: AssetImage("images/background.jpeg")),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: height * 0.13,
+                      width: width,
+                      child: Image(
+                          color: Colors.white,
+                          image: AssetImage("images/kjob.png")),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: height * 0.1,
+              ),
+              Container(
+                child: ListTile(
+                  title: Text('Home Page',
+                      style: TextStyle(fontSize: 25, color: Colors.white)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Worker_dashboard(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              ListTile(
+                title: Text('Profile',
+                    style: TextStyle(fontSize: 25, color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Worker_profile(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('Setting',
+                    style: TextStyle(fontSize: 25, color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Worker_setting(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                title: Text('LogOut',
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                    )),
+                onTap: () {
+                  logout();
+                },
+              ),
+            ],
+          ),
+        ),
+        widthFactor: 0.7,
+      ),
       body: Center(
         child: Container(
           height: height,
@@ -45,28 +182,8 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                 ),
                 child: Column(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: height * 0.04,
-                          left: width * 0.06,
-                          right: width * 0.06),
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(
-                              Icons.menu_outlined,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            Icon(
-                              Icons.message,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                          ],
-                        ),
-                      ),
+                    SizedBox(
+                      height: height * 0.04,
                     ),
                     Center(
                       child: SizedBox(
@@ -181,7 +298,6 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                   ],
                 ),
               ),
-
               StreamBuilder<QuerySnapshot>(
                   stream:
                       FirebaseFirestore.instance.collection('jobs').snapshots(),
@@ -191,7 +307,7 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                         : Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              height: height * 0.55,
+                              height: height * 0.5,
                               width: width,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10)),
@@ -380,32 +496,83 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                                                                 EdgeInsets.only(
                                                                     left: width *
                                                                         0.03),
-                                                            child: Container(
-                                                              height:
-                                                                  height * 0.05,
-                                                              width:
-                                                                  width * 0.21,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .orange,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              child: Center(
-                                                                child: Text(
-                                                                  "Detail",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .black,
-                                                                      fontSize:
-                                                                          width *
-                                                                              0.04,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                StaticData
+                                                                    .jobconttitle = snapshot
+                                                                        .data!
+                                                                        .docs[index]
+                                                                    [
+                                                                    'jobtitle'];
+                                                                StaticData
+                                                                    .jobcontuid = snapshot
+                                                                        .data!
+                                                                        .docs[
+                                                                    index]['id'];
+                                                                Contracter_jobpostmodel
+                                                                    model =
+                                                                    Contracter_jobpostmodel(
+                                                                  id: snapshot
+                                                                          .data!
+                                                                          .docs[
+                                                                      index]['id'],
+                                                                  name: snapshot
+                                                                          .data!
+                                                                          .docs[
+                                                                      index]['name'],
+                                                                  time: snapshot
+                                                                          .data!
+                                                                          .docs[
+                                                                      index]['time'],
+                                                                  hourlyprice: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'hourlyprice'],
+                                                                  jobtitle: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'jobtitle'],
+                                                                );
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            Jobdetail(
+                                                                      model:
+                                                                          model,
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Container(
+                                                                height: height *
+                                                                    0.05,
+                                                                width: width *
+                                                                    0.21,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .orange,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                ),
+                                                                child: Center(
+                                                                  child: Text(
+                                                                    "Detail",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontSize:
+                                                                            width *
+                                                                                0.04,
+                                                                        fontWeight:
+                                                                            FontWeight.bold),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -425,785 +592,6 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                             ),
                           );
                   }),
-              // Padding(
-              //   padding: EdgeInsets.only(top: height * 0.34),
-              //   child: Container(
-              //     height: height,
-              //     width: width,
-              //     //color: Colors.pink,
-              //     child: SingleChildScrollView(
-              //       child: Column(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           Padding(
-              //             padding: EdgeInsets.all(8.0),
-              //             child: Container(
-              //               height: height * 0.33,
-              //               width: width,
-              //               decoration: BoxDecoration(
-              //                   color: Colors.black.withOpacity(0.6),
-              //                   borderRadius: BorderRadius.circular(10)),
-              //               child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //                 children: [
-              //                   Padding(
-              //                     padding:
-              //                         EdgeInsets.only(bottom: height * 0.06),
-              //                     child: Container(
-              //                         height: height * 0.12,
-              //                         width: width * 0.21,
-              //                         decoration: BoxDecoration(
-              //                             color: Colors.black,
-              //                             borderRadius:
-              //                                 BorderRadius.circular(10)),
-              //                         child: Image(
-              //                             color: Colors.white,
-              //                             fit: BoxFit.fill,
-              //                             image:
-              //                                 AssetImage("images/person.png"))),
-              //                   ),
-              //                   Container(
-              //                     height: height * 0.32,
-              //                     width: width * 0.7,
-              //                     //color: Colors.blue,
-              //                     child: Column(
-              //                       // mainAxisAlignment: MainAxisAlignment.start,
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               top: height * 0.02,
-              //                               left: width * 0.02),
-              //                           child: Text(
-              //                             "Google",
-              //                             style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                                 fontWeight: FontWeight.bold),
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               bottom: height * 0.01),
-              //                           child: Container(
-              //                             child: Text(
-              //                               "______________________________________",
-              //                               style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                         Container(
-              //                           child: Row(
-              //                             mainAxisAlignment:
-              //                                 MainAxisAlignment.spaceBetween,
-              //                             children: [
-              //                               Text(
-              //                                 "Subject:",
-              //                                 style: TextStyle(
-              //                                     color: Color.fromARGB(
-              //                                         199, 255, 153, 0),
-              //                                     fontSize: width * 0.04,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                               Padding(
-              //                                 padding: EdgeInsets.only(
-              //                                     right: width * 0.1),
-              //                                 child: Text(
-              //                                   "Paster Required",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "Description:",
-              //                           style: TextStyle(
-              //                               color: Color.fromARGB(
-              //                                   199, 255, 153, 0),
-              //                               fontSize: width * 0.04,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "Aplaster required for permanent base who should be able to work around a 40 hour week.Atleast 2 years of",
-              //                           style: TextStyle(
-              //                             color: Colors.white,
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "______________________________________",
-              //                           style: TextStyle(
-              //                             color:
-              //                                 Color.fromARGB(199, 255, 153, 0),
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               right: width * 0.1,
-              //                               top: height * 0.02),
-              //                           child: Container(
-              //                             child: Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: [
-              //                                 Text(
-              //                                   "Hourly price",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Text(
-              //                                   "30.0",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Padding(
-              //                                   padding: EdgeInsets.only(
-              //                                       left: width * 0.03),
-              //                                   child: Container(
-              //                                     height: height * 0.05,
-              //                                     width: width * 0.21,
-              //                                     decoration: BoxDecoration(
-              //                                       color: Colors.orange,
-              //                                       borderRadius:
-              //                                           BorderRadius.circular(
-              //                                               10),
-              //                                     ),
-              //                                     child: Center(
-              //                                       child: Text(
-              //                                         "Detail",
-              //                                         style: TextStyle(
-              //                                             color: Colors.black,
-              //                                             fontSize:
-              //                                                 width * 0.04,
-              //                                             fontWeight:
-              //                                                 FontWeight.bold),
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                 )
-              //                               ],
-              //                             ),
-              //                           ),
-              //                         )
-              //                       ],
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Container(
-              //               height: height * 0.33,
-              //               width: width,
-              //               decoration: BoxDecoration(
-              //                   color: Colors.black.withOpacity(0.6),
-              //                   borderRadius: BorderRadius.circular(10)),
-              //               child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //                 children: [
-              //                   Padding(
-              //                     padding:
-              //                         EdgeInsets.only(bottom: height * 0.06),
-              //                     child: Container(
-              //                         height: height * 0.12,
-              //                         width: width * 0.21,
-              //                         decoration: BoxDecoration(
-              //                             color: Colors.black,
-              //                             borderRadius:
-              //                                 BorderRadius.circular(10)),
-              //                         child: Image(
-              //                             color: Colors.white,
-              //                             fit: BoxFit.fill,
-              //                             image:
-              //                                 AssetImage("images/person.png"))),
-              //                   ),
-              //                   Container(
-              //                     height: height * 0.32,
-              //                     width: width * 0.7,
-              //                     //color: Colors.blue,
-              //                     child: Column(
-              //                       // mainAxisAlignment: MainAxisAlignment.start,
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               top: height * 0.02,
-              //                               left: width * 0.02),
-              //                           child: Text(
-              //                             "Google",
-              //                             style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                                 fontWeight: FontWeight.bold),
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               bottom: height * 0.01),
-              //                           child: Container(
-              //                             child: Text(
-              //                               "______________________________________",
-              //                               style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                         Container(
-              //                           child: Row(
-              //                             mainAxisAlignment:
-              //                                 MainAxisAlignment.spaceBetween,
-              //                             children: [
-              //                               Text(
-              //                                 "Subject:",
-              //                                 style: TextStyle(
-              //                                     color: Color.fromARGB(
-              //                                         199, 255, 153, 0),
-              //                                     fontSize: width * 0.04,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                               Padding(
-              //                                 padding: EdgeInsets.only(
-              //                                     right: width * 0.1),
-              //                                 child: Text(
-              //                                   "Paster Required",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "Description:",
-              //                           style: TextStyle(
-              //                               color: Color.fromARGB(
-              //                                   199, 255, 153, 0),
-              //                               fontSize: width * 0.04,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "Aplaster required for permanent base who should be able to work around a 40 hour week.Atleast 2 years of",
-              //                           style: TextStyle(
-              //                             color: Colors.white,
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "______________________________________",
-              //                           style: TextStyle(
-              //                             color:
-              //                                 Color.fromARGB(199, 255, 153, 0),
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               right: width * 0.1,
-              //                               top: height * 0.02),
-              //                           child: Container(
-              //                             child: Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: [
-              //                                 Text(
-              //                                   "Hourly price",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Text(
-              //                                   "30.0",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Padding(
-              //                                   padding: EdgeInsets.only(
-              //                                       left: width * 0.03),
-              //                                   child: Container(
-              //                                     height: height * 0.05,
-              //                                     width: width * 0.21,
-              //                                     decoration: BoxDecoration(
-              //                                       color: Colors.orange,
-              //                                       borderRadius:
-              //                                           BorderRadius.circular(
-              //                                               10),
-              //                                     ),
-              //                                     child: Center(
-              //                                       child: Text(
-              //                                         "Detail",
-              //                                         style: TextStyle(
-              //                                             color: Colors.black,
-              //                                             fontSize:
-              //                                                 width * 0.04,
-              //                                             fontWeight:
-              //                                                 FontWeight.bold),
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                 )
-              //                               ],
-              //                             ),
-              //                           ),
-              //                         )
-              //                       ],
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Container(
-              //               height: height * 0.33,
-              //               width: width,
-              //               decoration: BoxDecoration(
-              //                   color: Colors.black.withOpacity(0.6),
-              //                   borderRadius: BorderRadius.circular(10)),
-              //               child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //                 children: [
-              //                   Padding(
-              //                     padding:
-              //                         EdgeInsets.only(bottom: height * 0.06),
-              //                     child: Container(
-              //                         height: height * 0.12,
-              //                         width: width * 0.21,
-              //                         decoration: BoxDecoration(
-              //                             color: Colors.black,
-              //                             borderRadius:
-              //                                 BorderRadius.circular(10)),
-              //                         child: Image(
-              //                             color: Colors.white,
-              //                             fit: BoxFit.fill,
-              //                             image:
-              //                                 AssetImage("images/person.png"))),
-              //                   ),
-              //                   Container(
-              //                     height: height * 0.32,
-              //                     width: width * 0.7,
-              //                     //color: Colors.blue,
-              //                     child: Column(
-              //                       // mainAxisAlignment: MainAxisAlignment.start,
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               top: height * 0.02,
-              //                               left: width * 0.02),
-              //                           child: Text(
-              //                             "Google",
-              //                             style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                                 fontWeight: FontWeight.bold),
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               bottom: height * 0.01),
-              //                           child: Container(
-              //                             child: Text(
-              //                               "______________________________________",
-              //                               style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                         Container(
-              //                           child: Row(
-              //                             mainAxisAlignment:
-              //                                 MainAxisAlignment.spaceBetween,
-              //                             children: [
-              //                               Text(
-              //                                 "Subject:",
-              //                                 style: TextStyle(
-              //                                     color: Color.fromARGB(
-              //                                         199, 255, 153, 0),
-              //                                     fontSize: width * 0.04,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                               Padding(
-              //                                 padding: EdgeInsets.only(
-              //                                     right: width * 0.1),
-              //                                 child: Text(
-              //                                   "Paster Required",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "Description:",
-              //                           style: TextStyle(
-              //                               color: Color.fromARGB(
-              //                                   199, 255, 153, 0),
-              //                               fontSize: width * 0.04,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "Aplaster required for permanent base who should be able to work around a 40 hour week.Atleast 2 years of",
-              //                           style: TextStyle(
-              //                             color: Colors.white,
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "______________________________________",
-              //                           style: TextStyle(
-              //                             color:
-              //                                 Color.fromARGB(199, 255, 153, 0),
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               right: width * 0.1,
-              //                               top: height * 0.02),
-              //                           child: Container(
-              //                             child: Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: [
-              //                                 Text(
-              //                                   "Hourly price",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Text(
-              //                                   "30.0",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Padding(
-              //                                   padding: EdgeInsets.only(
-              //                                       left: width * 0.03),
-              //                                   child: Container(
-              //                                     height: height * 0.05,
-              //                                     width: width * 0.21,
-              //                                     decoration: BoxDecoration(
-              //                                       color: Colors.orange,
-              //                                       borderRadius:
-              //                                           BorderRadius.circular(
-              //                                               10),
-              //                                     ),
-              //                                     child: Center(
-              //                                       child: Text(
-              //                                         "Detail",
-              //                                         style: TextStyle(
-              //                                             color: Colors.black,
-              //                                             fontSize:
-              //                                                 width * 0.04,
-              //                                             fontWeight:
-              //                                                 FontWeight.bold),
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                 )
-              //                               ],
-              //                             ),
-              //                           ),
-              //                         )
-              //                       ],
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //           Padding(
-              //             padding: const EdgeInsets.all(8.0),
-              //             child: Container(
-              //               height: height * 0.33,
-              //               width: width,
-              //               decoration: BoxDecoration(
-              //                   color: Colors.black.withOpacity(0.6),
-              //                   borderRadius: BorderRadius.circular(10)),
-              //               child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //                 children: [
-              //                   Padding(
-              //                     padding:
-              //                         EdgeInsets.only(bottom: height * 0.06),
-              //                     child: Container(
-              //                         height: height * 0.12,
-              //                         width: width * 0.21,
-              //                         decoration: BoxDecoration(
-              //                             color: Colors.black,
-              //                             borderRadius:
-              //                                 BorderRadius.circular(10)),
-              //                         child: Image(
-              //                             color: Colors.white,
-              //                             fit: BoxFit.fill,
-              //                             image:
-              //                                 AssetImage("images/person.png"))),
-              //                   ),
-              //                   Container(
-              //                     height: height * 0.32,
-              //                     width: width * 0.7,
-              //                     //color: Colors.blue,
-              //                     child: Column(
-              //                       // mainAxisAlignment: MainAxisAlignment.start,
-              //                       crossAxisAlignment:
-              //                           CrossAxisAlignment.start,
-              //                       children: [
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               top: height * 0.02,
-              //                               left: width * 0.02),
-              //                           child: Text(
-              //                             "Google",
-              //                             style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                                 fontWeight: FontWeight.bold),
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               bottom: height * 0.01),
-              //                           child: Container(
-              //                             child: Text(
-              //                               "______________________________________",
-              //                               style: TextStyle(
-              //                                 color: Colors.white,
-              //                                 fontSize: width * 0.04,
-              //                               ),
-              //                             ),
-              //                           ),
-              //                         ),
-              //                         Container(
-              //                           child: Row(
-              //                             mainAxisAlignment:
-              //                                 MainAxisAlignment.spaceBetween,
-              //                             children: [
-              //                               Text(
-              //                                 "Subject:",
-              //                                 style: TextStyle(
-              //                                     color: Color.fromARGB(
-              //                                         199, 255, 153, 0),
-              //                                     fontSize: width * 0.04,
-              //                                     fontWeight: FontWeight.bold),
-              //                               ),
-              //                               Padding(
-              //                                 padding: EdgeInsets.only(
-              //                                     right: width * 0.1),
-              //                                 child: Text(
-              //                                   "Paster Required",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                               ),
-              //                             ],
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "Description:",
-              //                           style: TextStyle(
-              //                               color: Color.fromARGB(
-              //                                   199, 255, 153, 0),
-              //                               fontSize: width * 0.04,
-              //                               fontWeight: FontWeight.bold),
-              //                         ),
-              //                         Text(
-              //                           "Aplaster required for permanent base who should be able to work around a 40 hour week.Atleast 2 years of",
-              //                           style: TextStyle(
-              //                             color: Colors.white,
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Text(
-              //                           "______________________________________",
-              //                           style: TextStyle(
-              //                             color:
-              //                                 Color.fromARGB(199, 255, 153, 0),
-              //                             fontSize: width * 0.04,
-              //                           ),
-              //                         ),
-              //                         Padding(
-              //                           padding: EdgeInsets.only(
-              //                               right: width * 0.1,
-              //                               top: height * 0.02),
-              //                           child: Container(
-              //                             child: Row(
-              //                               mainAxisAlignment:
-              //                                   MainAxisAlignment.spaceBetween,
-              //                               children: [
-              //                                 Text(
-              //                                   "Hourly price",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Text(
-              //                                   "30.0",
-              //                                   style: TextStyle(
-              //                                       color: Colors.white,
-              //                                       fontSize: width * 0.04,
-              //                                       fontWeight:
-              //                                           FontWeight.bold),
-              //                                 ),
-              //                                 Padding(
-              //                                   padding: EdgeInsets.only(
-              //                                       left: width * 0.03),
-              //                                   child: Container(
-              //                                     height: height * 0.05,
-              //                                     width: width * 0.21,
-              //                                     decoration: BoxDecoration(
-              //                                       color: Colors.orange,
-              //                                       borderRadius:
-              //                                           BorderRadius.circular(
-              //                                               10),
-              //                                     ),
-              //                                     child: Center(
-              //                                       child: Text(
-              //                                         "Detail",
-              //                                         style: TextStyle(
-              //                                             color: Colors.black,
-              //                                             fontSize:
-              //                                                 width * 0.04,
-              //                                             fontWeight:
-              //                                                 FontWeight.bold),
-              //                                       ),
-              //                                     ),
-              //                                   ),
-              //                                 )
-              //                               ],
-              //                             ),
-              //                           ),
-              //                         )
-              //                       ],
-              //                     ),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Align(
-              //   alignment: Alignment.bottomCenter,
-              //   child: Container(
-              //     height: height * 0.07,
-              //     width: width,
-              //     color: Colors.white,
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: [
-              //         Container(
-              //           height: height * 0.05,
-              //           width: width * 0.2,
-              //           decoration: BoxDecoration(
-              //               color: Colors.orange,
-              //               borderRadius: BorderRadius.circular(22)),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //             children: [
-              //               Icon(
-              //                 Icons.home,
-              //                 color: Colors.black,
-              //                 size: 19,
-              //               ),
-              //               Text(
-              //                 "Home",
-              //                 style: TextStyle(
-              //                     fontWeight: FontWeight.bold,
-              //                     fontSize: width * 0.03),
-              //               )
-              //             ],
-              //           ),
-              //         ),
-              //         Container(
-              //           height: height * 0.05,
-              //           width: width * 0.15,
-              //           decoration: BoxDecoration(
-              //               // color: Colors.orange,
-              //               borderRadius: BorderRadius.circular(22)),
-              //           child: Icon(
-              //             Icons.shopping_bag,
-              //             color: Colors.black,
-              //             size: 20,
-              //           ),
-              //         ),
-              //         Container(
-              //           height: height * 0.05,
-              //           width: width * 0.15,
-              //           decoration: BoxDecoration(
-              //               // color: Colors.orange,
-              //               borderRadius: BorderRadius.circular(22)),
-              //           child: Icon(
-              //             Icons.settings,
-              //             color: Colors.black,
-              //             size: 21,
-              //           ),
-              //         ),
-              //         Container(
-              //           height: height * 0.05,
-              //           width: width * 0.15,
-              //           decoration: BoxDecoration(
-              //               // color: Colors.orange,
-              //               borderRadius: BorderRadius.circular(22)),
-              //           child: Icon(
-              //             Icons.person_outline,
-              //             color: Colors.black,
-              //             size: 24,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),
@@ -1211,3 +599,11 @@ class _WorkerhomepageState extends State<Workerhomepage> {
     );
   }
 }
+  // String chatroomid(String user1, String user2) {
+  //   if (user1[0].toLowerCase().codeUnits[0] >
+  //       user2.toLowerCase().codeUnits[0]) {
+  //     return "$user1$user2";
+  //   } else {
+  //     return "$user2$user1";
+  //   }
+  // }
