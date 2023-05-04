@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:labour_app/utiles/model/workerstatic_data.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:labour_app/utiles/model/bankdetails_model.dart';
+import 'package:labour_app/utiles/model/worker_usermodel.dart';
 
 class Worker_bankdetail extends StatefulWidget {
   const Worker_bankdetail({super.key});
@@ -15,6 +19,39 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
   TextEditingController accountnumberController = TextEditingController();
   TextEditingController sortcodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  var holdername, bname, anumber, scode;
+  void postbankdatatoDB() async {
+    await firebaseFirestore
+        .collection("workerUser")
+        .doc(workerStaticData.uid)
+        .update({
+      'accountntholdername': holdername,
+      'bankname': bname,
+      'accountnumber': anumber,
+      'sortcode': scode
+    });
+    // Workerusermodel model = Workerusermodel(
+    //   accountntholdername: accountnameController.text,
+    //   bankname: banknameController.text,
+    //   accountnumber: accountnumberController.text,
+    //   sortcode: sortcodeController.text,
+    // );
+
+    // await FirebaseFirestore.instance
+    //     .collection('workerUser')
+    //     .doc(workerStaticData.uid)
+    //     .set(model.toMap());
+    Fluttertoast.showToast(
+      msg: 'Succesfully details posted',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
 
   var height, width;
   @override
@@ -162,6 +199,9 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
                                                         TextInputType.text,
                                                     style: const TextStyle(
                                                         color: Colors.white),
+                                                    onChanged: (value) {
+                                                      holdername = value;
+                                                    },
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -253,6 +293,9 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
                                                         TextInputType.text,
                                                     style: const TextStyle(
                                                         color: Colors.white),
+                                                    onChanged: (value) {
+                                                      bname = value;
+                                                    },
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -344,6 +387,9 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
                                                         TextInputType.number,
                                                     style: const TextStyle(
                                                         color: Colors.white),
+                                                    onChanged: (value) {
+                                                      anumber = value;
+                                                    },
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -435,6 +481,9 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
                                                         TextInputType.number,
                                                     style: const TextStyle(
                                                         color: Colors.white),
+                                                    onChanged: (value) {
+                                                      scode = value;
+                                                    },
                                                     validator: (value) {
                                                       if (value == null ||
                                                           value.isEmpty) {
@@ -480,11 +529,12 @@ class _Worker_bankdetailState extends State<Worker_bankdetail> {
                         child: InkWell(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text('Details added successfuly ')),
-                              );
+                              postbankdatatoDB();
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   const SnackBar(
+                              //       content:
+                              //           Text('Details added successfuly ')),
+                              // );
                             }
                           },
                           child: Container(

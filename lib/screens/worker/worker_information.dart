@@ -31,6 +31,8 @@ class _Worker_informationState extends State<Worker_information> {
   TextEditingController jobController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController datecontroller = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+
   TextEditingController experiencecontroller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
@@ -100,11 +102,16 @@ class _Worker_informationState extends State<Worker_information> {
       password: widget.password,
       cnfpassword: widget.confirmpwd,
       phoneNO: phoneController.text,
+      address: addressController.text,
       uid: id,
       job: jobController.text,
       gender: _groupValue,
       experience: experiencecontroller.text,
       dateofbirth: selectdate,
+      accountntholdername: "",
+      bankname: "",
+      accountnumber: "",
+      sortcode: "",
     );
     await FirebaseFirestore.instance
         .collection('workerUser')
@@ -182,7 +189,7 @@ class _Worker_informationState extends State<Worker_information> {
                     Form(
                       key: _formKey,
                       child: Container(
-                        height: height * 0.5,
+                        height: height * 0.55,
                         width: width * 0.8,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -274,6 +281,51 @@ class _Worker_informationState extends State<Worker_information> {
                                 ],
                               ),
                             ),
+                            Container(
+                              height: height * 0.06,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 15, right: 15),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.streetAddress,
+                                    controller: addressController,
+                                    style: const TextStyle(color: Colors.white),
+                                    decoration: const InputDecoration(
+                                        focusedBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        enabledBorder: UnderlineInputBorder(
+                                          borderSide:
+                                              BorderSide(color: Colors.white),
+                                        ),
+                                        hintText: "Enter your Address",
+                                        hintStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                        ),
+                                        labelText: 'Address',
+                                        labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 13,
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.add_comment,
+                                          color: Colors.orange,
+                                        )),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter some text ';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+
                             Container(
                               height: height * 0.06,
                               child: Row(
@@ -462,10 +514,10 @@ class _Worker_informationState extends State<Worker_information> {
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
                                   signUp2();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Successfully Signup')),
-                                  );
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //       content: Text('Successfully Signup')),
+                                  // );
                                 }
                               },
                               child: Container(

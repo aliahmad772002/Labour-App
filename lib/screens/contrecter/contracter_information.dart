@@ -69,7 +69,7 @@ class _contracter_informationState extends State<contracter_information> {
           errorMessage = "An undefined Error happened.";
       }
       Fluttertoast.showToast(
-        msg:'Successfully signup',
+        msg: 'Successfully signup',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,

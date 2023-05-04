@@ -4,9 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/screens/contrecter/contracter_dashboard.dart';
 import 'package:labour_app/utiles/model/contracter_jobpostmodel.dart';
-import 'package:labour_app/utiles/model/contractor_usermodel.dart';
 import 'package:labour_app/utiles/model/static_data.dart';
-import 'package:uuid/uuid.dart';
 
 class Postjob extends StatefulWidget {
   const Postjob({super.key});

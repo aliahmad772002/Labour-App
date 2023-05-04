@@ -13,7 +13,10 @@ class Workerusermodel {
   String? experience;
   String? dateofbirth;
   String? address;
-  String? workertokenID;
+  String? accountntholdername;
+  String? bankname;
+  String? accountnumber;
+  String? sortcode;
   Workerusermodel({
     this.uname,
     this.email,
@@ -26,7 +29,10 @@ class Workerusermodel {
     this.experience,
     this.dateofbirth,
     this.address,
-    this.workertokenID,
+    this.accountntholdername,
+    this.bankname,
+    this.accountnumber,
+    this.sortcode,
   });
 
   Workerusermodel copyWith({
@@ -41,7 +47,10 @@ class Workerusermodel {
     String? experience,
     String? dateofbirth,
     String? address,
-    String? workertokenID,
+    String? accountntholdername,
+    String? bankname,
+    String? accountnumber,
+    String? sortcode,
   }) {
     return Workerusermodel(
       uname: uname ?? this.uname,
@@ -55,7 +64,10 @@ class Workerusermodel {
       experience: experience ?? this.experience,
       dateofbirth: dateofbirth ?? this.dateofbirth,
       address: address ?? this.address,
-      workertokenID: workertokenID ?? this.workertokenID,
+      accountntholdername: accountntholdername ?? this.accountntholdername,
+      bankname: bankname ?? this.bankname,
+      accountnumber: accountnumber ?? this.accountnumber,
+      sortcode: sortcode ?? this.sortcode,
     );
   }
 
@@ -72,7 +84,10 @@ class Workerusermodel {
       'experience': experience,
       'dateofbirth': dateofbirth,
       'address': address,
-      'workertokenID': workertokenID,
+      'accountntholdername': accountntholdername,
+      'bankname': bankname,
+      'accountnumber': accountnumber,
+      'sortcode': sortcode,
     };
   }
 
@@ -92,8 +107,13 @@ class Workerusermodel {
       dateofbirth:
           map['dateofbirth'] != null ? map['dateofbirth'] as String : null,
       address: map['address'] != null ? map['address'] as String : null,
-      workertokenID:
-          map['workertokenID'] != null ? map['workertokenID'] as String : null,
+      accountntholdername: map['accountntholdername'] != null
+          ? map['accountntholdername'] as String
+          : null,
+      bankname: map['bankname'] != null ? map['bankname'] as String : null,
+      accountnumber:
+          map['accountnumber'] != null ? map['accountnumber'] as String : null,
+      sortcode: map['sortcode'] != null ? map['sortcode'] as String : null,
     );
   }
 
@@ -104,7 +124,7 @@ class Workerusermodel {
 
   @override
   String toString() {
-    return 'Workerusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, job: $job, gender: $gender, experience: $experience, dateofbirth: $dateofbirth, address: $address, workertokenID: $workertokenID)';
+    return 'Workerusermodel(uname: $uname, email: $email, password: $password, cnfpassword: $cnfpassword, uid: $uid, phoneNO: $phoneNO, job: $job, gender: $gender, experience: $experience, dateofbirth: $dateofbirth, address: $address, accountntholdername: $accountntholdername, bankname: $bankname, accountnumber: $accountnumber, sortcode: $sortcode)';
   }
 
   @override
@@ -122,7 +142,10 @@ class Workerusermodel {
         other.experience == experience &&
         other.dateofbirth == dateofbirth &&
         other.address == address &&
-        other.workertokenID == workertokenID;
+        other.accountntholdername == accountntholdername &&
+        other.bankname == bankname &&
+        other.accountnumber == accountnumber &&
+        other.sortcode == sortcode;
   }
 
   @override
@@ -138,6 +161,9 @@ class Workerusermodel {
         experience.hashCode ^
         dateofbirth.hashCode ^
         address.hashCode ^
-        workertokenID.hashCode;
+        accountntholdername.hashCode ^
+        bankname.hashCode ^
+        accountnumber.hashCode ^
+        sortcode.hashCode;
   }
 }

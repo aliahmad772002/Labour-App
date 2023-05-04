@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:labour_app/screens/contrecter/contracter_home.dart';
 import 'package:labour_app/screens/contrecter/contracter_joblist.dart';
@@ -21,14 +18,11 @@ class _Contracter_dashboardState extends State<Contracter_dashboard> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _screens = [
-   
     Contracterhome(),
     Postjob(),
     Contracter_joblist(),
     Contracter_setting(),
     Contracter_profile(),
-
-  
   ];
 
   @override
@@ -43,9 +37,9 @@ class _Contracter_dashboardState extends State<Contracter_dashboard> {
           height: height * 0.07,
           width: width,
           child: GNav(
-            rippleColor: Colors.black, // tab button ripple color when pressed
-            hoverColor: Colors.amber, // tab button hover color
-            haptic: true, // haptic feedback
+            rippleColor: Colors.black,
+            hoverColor: Colors.amber,
+            haptic: true,
             tabBorderRadius: 10,
             // tabActiveBorder:
             //     Border.all(color: Colors.black, width: 1),

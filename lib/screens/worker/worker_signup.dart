@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:labour_app/custom_clippers/Clipper1.dart';
 import 'package:labour_app/screens/worker/worker_information.dart';
@@ -159,6 +160,12 @@ class _Worker_signupState extends State<Worker_signup> {
                                       fontSize: 13,
                                     ),
                                   ),
+                                  autofillHints: [AutofillHints.email],
+                                  onEditingComplete: () =>
+                                      TextInput.finishAutofillContext(),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {},
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter email ';
@@ -194,11 +201,23 @@ class _Worker_signupState extends State<Worker_signup> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    autofillHints: [AutofillHints.password],
+                                    onEditingComplete: () =>
+                                        TextInput.finishAutofillContext(),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    onChanged: (value) {},
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter password';
+                                      } else {
+                                        if (value.length < 5) {
+                                          return ("Password must be more than 5 characters");
+                                        } else {
+                                          return null;
+                                        }
                                       }
-                                      return null;
+                                      // return null;
                                     },
                                   ),
                                 ),
@@ -230,11 +249,23 @@ class _Worker_signupState extends State<Worker_signup> {
                                         fontSize: 13,
                                       ),
                                     ),
+                                    autofillHints: [AutofillHints.password],
+                                    onEditingComplete: () =>
+                                        TextInput.finishAutofillContext(),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    onChanged: (value) {},
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please confirm password';
+                                        return 'Please enter confirm password';
+                                      } else {
+                                        if (value.length < 5) {
+                                          return ("Password must be more than 5 characters");
+                                        } else {
+                                          return null;
+                                        }
                                       }
-                                      return null;
+                                      // return null;
                                     },
                                   ),
                                 ),
