@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class Appliedjobmodal {
@@ -11,6 +12,9 @@ class Appliedjobmodal {
   String? jobtitle;
   String? description;
   String? price;
+  String? workerid;
+  String? contacterid;
+  String? status;
   Appliedjobmodal({
     this.workername,
     this.workertitle,
@@ -22,6 +26,9 @@ class Appliedjobmodal {
     this.jobtitle,
     this.description,
     this.price,
+    this.workerid,
+    this.contacterid,
+    this.status,
   });
 
   Appliedjobmodal copyWith({
@@ -35,6 +42,9 @@ class Appliedjobmodal {
     String? jobtitle,
     String? description,
     String? price,
+    String? workerid,
+    String? contacterid,
+    String? status,
   }) {
     return Appliedjobmodal(
       workername: workername ?? this.workername,
@@ -47,6 +57,9 @@ class Appliedjobmodal {
       jobtitle: jobtitle ?? this.jobtitle,
       description: description ?? this.description,
       price: price ?? this.price,
+      workerid: workerid ?? this.workerid,
+      contacterid: contacterid ?? this.contacterid,
+      status: status ?? this.status,
     );
   }
 
@@ -62,6 +75,9 @@ class Appliedjobmodal {
       'jobtitle': jobtitle,
       'description': description,
       'price': price,
+      'workerid': workerid,
+      'contacterid': contacterid,
+      'status': status,
     };
   }
 
@@ -87,6 +103,10 @@ class Appliedjobmodal {
       description:
           map['description'] != null ? map['description'] as String : null,
       price: map['price'] != null ? map['price'] as String : null,
+      workerid: map['workerid'] != null ? map['workerid'] as String : null,
+      contacterid:
+          map['contacterid'] != null ? map['contacterid'] as String : null,
+      status: map['status'] != null ? map['status'] as String : null,
     );
   }
 
@@ -97,7 +117,7 @@ class Appliedjobmodal {
 
   @override
   String toString() {
-    return 'Appliedjobmodal(workername: $workername, workertitle: $workertitle, workergender: $workergender, workerexperience: $workerexperience, applieddate: $applieddate, appliedtime: $appliedtime, contractorname: $contractorname, jobtitle: $jobtitle, description: $description, price: $price)';
+    return 'Appliedjobmodal(workername: $workername, workertitle: $workertitle, workergender: $workergender, workerexperience: $workerexperience, applieddate: $applieddate, appliedtime: $appliedtime, contractorname: $contractorname, jobtitle: $jobtitle, description: $description, price: $price, workerid: $workerid, contacterid: $contacterid, status: $status)';
   }
 
   @override
@@ -113,7 +133,10 @@ class Appliedjobmodal {
         other.contractorname == contractorname &&
         other.jobtitle == jobtitle &&
         other.description == description &&
-        other.price == price;
+        other.price == price &&
+        other.workerid == workerid &&
+        other.contacterid == contacterid &&
+        other.status == status;
   }
 
   @override
@@ -127,6 +150,9 @@ class Appliedjobmodal {
         contractorname.hashCode ^
         jobtitle.hashCode ^
         description.hashCode ^
-        price.hashCode;
+        price.hashCode ^
+        workerid.hashCode ^
+        contacterid.hashCode ^
+        status.hashCode;
   }
 }

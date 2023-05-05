@@ -505,13 +505,21 @@ class _WorkerhomepageState extends State<Workerhomepage> {
                                                                     [
                                                                     'jobtitle'];
                                                                 StaticData
-                                                                    .jobcontuid = snapshot
+                                                                        .jobcontuid =
+                                                                    snapshot
                                                                         .data!
                                                                         .docs[
-                                                                    index]['id'];
+                                                                            index]
+                                                                        .get(
+                                                                            'id');
                                                                 Contracter_jobpostmodel
                                                                     model =
                                                                     Contracter_jobpostmodel(
+                                                                  description: snapshot
+                                                                          .data!
+                                                                          .docs[index]
+                                                                      [
+                                                                      'description'],
                                                                   id: snapshot
                                                                           .data!
                                                                           .docs[

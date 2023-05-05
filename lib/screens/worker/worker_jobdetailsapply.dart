@@ -254,6 +254,8 @@ class _JobdetailState extends State<Jobdetail> {
                                 alignment: Alignment.bottomCenter,
                                 child: InkWell(
                                   onTap: () {
+                                    StaticData.appliedworkerid =
+                                        workerStaticData.uid;
                                     jobdetails();
                                   },
                                   child: Container(
@@ -289,18 +291,25 @@ class _JobdetailState extends State<Jobdetail> {
         .doc(workerStaticData.uid)
         .get()
         .then((value) async {
-      Workerusermodel model = Workerusermodel.fromMap({});
+      Workerusermodel model = Workerusermodel.fromMap(value.data()!);
       Appliedjobmodal model1 = Appliedjobmodal(
         workername: model.uname,
         workergender: model.gender,
         workerexperience: model.experience,
         workertitle: model.job,
-        applieddate: formatter,
+        applieddate: widget.model!.date,
+        contacterid: StaticData.jobcontuid,
+        workerid: StaticData.appliedworkerid,
+        contractorname: widget.model!.name,
+        price: widget.model!.hourlyprice,
+        jobtitle: StaticData.jobconttitle,
+        status: "pending",
+        description: widget.model!.description,
       );
       await firebaseFirestore
           .collection('appliedjobs')
           .doc(StaticData.jobcontuid)
-          .collection(StaticData.jobconttitle)
+          .collection("appliedworkers")
           .doc(workerStaticData.uid)
           .set(model1.toMap());
     });

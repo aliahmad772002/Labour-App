@@ -9,4 +9,5 @@ class StaticData {
   static Appliedjobmodal? modal;
   static String? jobcontuid;
   static String jobconttitle = "";
+  static String? appliedworkerid;
 }
