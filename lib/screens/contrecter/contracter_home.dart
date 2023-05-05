@@ -70,9 +70,8 @@ class _ContracterhomeState extends State<Contracterhome> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           iconTheme: IconThemeData(
-              // color: Colors.black,
-
-              ),
+            color: Colors.white,
+          ),
           backgroundColor: Colors.transparent,
           actions: [
             Padding(

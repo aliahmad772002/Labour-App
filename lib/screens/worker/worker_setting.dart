@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:labour_app/screens/contrecter/contract_work.dart';
 
-import 'package:labour_app/screens/contrecter/contracter_editprofile.dart';
 import 'package:labour_app/screens/worker/worker_bankdetails.dart';
+import 'package:labour_app/screens/worker/worker_editprofile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Worker_setting extends StatefulWidget {
@@ -161,7 +161,7 @@ class _Worker_settingState extends State<Worker_setting> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              Contracter_editprofile(),
+                                              Worker_editprofile(),
                                         ),
                                       );
                                     },
@@ -220,56 +220,56 @@ class _Worker_settingState extends State<Worker_setting> {
                                   SizedBox(
                                     height: height * 0.03,
                                   ),
-                                  Container(
-                                    height: height * 0.1,
-                                    width: width * 0.9,
-                                    color: Colors.black.withOpacity(0.25),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  height: height * 0.06,
-                                                  width: width * 0.1,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: Colors.blue,
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.lock,
-                                                    color: Colors.white,
-                                                    size: width * 0.07,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: width * 0.1,
-                                                ),
-                                                Text(
-                                                  'Change Password',
-                                                  style: TextStyle(
-                                                      fontSize: width * 0.045,
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 20),
-                                              child: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Colors.white,
-                                                size: width * 0.055,
-                                              ),
-                                            ),
-                                          ]),
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   height: height * 0.1,
+                                  //   width: width * 0.9,
+                                  //   color: Colors.black.withOpacity(0.25),
+                                  //   child: Padding(
+                                  //     padding: const EdgeInsets.only(left: 20),
+                                  //     child: Row(
+                                  //         mainAxisAlignment:
+                                  //             MainAxisAlignment.spaceBetween,
+                                  //         children: [
+                                  //           Row(
+                                  //             children: [
+                                  //               Container(
+                                  //                 height: height * 0.06,
+                                  //                 width: width * 0.1,
+                                  //                 decoration: BoxDecoration(
+                                  //                   shape: BoxShape.circle,
+                                  //                   color: Colors.blue,
+                                  //                 ),
+                                  //                 child: Icon(
+                                  //                   Icons.lock,
+                                  //                   color: Colors.white,
+                                  //                   size: width * 0.07,
+                                  //                 ),
+                                  //               ),
+                                  //               SizedBox(
+                                  //                 width: width * 0.1,
+                                  //               ),
+                                  //               Text(
+                                  //                 'Change Password',
+                                  //                 style: TextStyle(
+                                  //                     fontSize: width * 0.045,
+                                  //                     color: Colors.white,
+                                  //                     fontWeight:
+                                  //                         FontWeight.bold),
+                                  //               ),
+                                  //             ],
+                                  //           ),
+                                  //           Padding(
+                                  //             padding: const EdgeInsets.only(
+                                  //                 right: 20),
+                                  //             child: Icon(
+                                  //               Icons.arrow_forward_ios,
+                                  //               color: Colors.white,
+                                  //               size: width * 0.055,
+                                  //             ),
+                                  //           ),
+                                  //         ]),
+                                  //   ),
+                                  // ),
                                   SizedBox(
                                     height: height * 0.03,
                                   ),

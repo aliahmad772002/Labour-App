@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
@@ -177,6 +178,12 @@ class _Contractor_loginState extends State<Contractor_login> {
                                     const EdgeInsets.only(left: 15, right: 15),
                                 child: TextFormField(
                                   controller: emailController,
+                                  autofillHints: [AutofillHints.email],
+                                  onEditingComplete: () =>
+                                      TextInput.finishAutofillContext(),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {},
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Please enter email';
@@ -211,12 +218,24 @@ class _Contractor_loginState extends State<Contractor_login> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.number,
                                   controller: passwordController,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter password';
-                                    }
 
-                                    return null;
+                                  autofillHints: [AutofillHints.password],
+                                  onEditingComplete: () =>
+                                      TextInput.finishAutofillContext(),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {},
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter  password';
+                                    } else {
+                                      if (value.length < 5) {
+                                        return ("Password must be more than 5 characters");
+                                      } else {
+                                        return null;
+                                      }
+                                    }
+                                    // return null;
                                   },
                                   style: const TextStyle(color: Colors.white),
                                   obscureText:

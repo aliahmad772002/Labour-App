@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:labour_app/screens/worker/worker_dashboard.dart';
-import 'package:labour_app/screens/worker/worker_homepage.dart';
 import 'package:labour_app/utiles/model/workerstatic_data.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:labour_app/custom_clippers/Clipper1.dart';
@@ -178,6 +178,12 @@ class _Worker_loginState extends State<Worker_login> {
                                   controller: emailController,
                                   keyboardType: TextInputType.text,
                                   style: const TextStyle(color: Colors.white),
+                                  autofillHints: [AutofillHints.email],
+                                  onEditingComplete: () =>
+                                      TextInput.finishAutofillContext(),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  onChanged: (value) {},
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter Email ';
@@ -230,11 +236,23 @@ class _Worker_loginState extends State<Worker_login> {
                                     obscureText:
                                         !_passwordVisible, //This will obscure text dynamically
                                     style: const TextStyle(color: Colors.white),
+                                    autofillHints: [AutofillHints.password],
+                                    onEditingComplete: () =>
+                                        TextInput.finishAutofillContext(),
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    onChanged: (value) {},
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter Password';
+                                        return 'Please enter  password';
+                                      } else {
+                                        if (value.length < 5) {
+                                          return ("Password must be more than 5 characters");
+                                        } else {
+                                          return null;
+                                        }
                                       }
-                                      return null;
+                                      // return null;
                                     },
                                     decoration: InputDecoration(
                                       focusedBorder: const UnderlineInputBorder(
